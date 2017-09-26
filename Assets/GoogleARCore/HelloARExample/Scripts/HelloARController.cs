@@ -21,7 +21,6 @@
 using System;
 using System.Collections;
 using System.Linq;
-using Assets.MyPrefabs.Scripts;
 using UnityEngine.UI;
 
 namespace GoogleARCore.HelloAR
@@ -176,7 +175,16 @@ namespace GoogleARCore.HelloAR
 
                 var embers = Instantiate(embersEffect, hit.Point + new Vector3(0 + element * 0.1f, (float)values[element]/10, 0), Quaternion.identity, anchor.transform);
                 embers.transform.Rotate(embers.transform.rotation.x - 90, embers.transform.rotation.y, embers.transform.rotation.z);
-                cube.transform.localScale += new Vector3(0, (float) values[element]/10, 0);
+
+                // Scale the green cube
+                foreach (Transform child in cube.transform)
+                {
+                    if (child.gameObject.tag == "GrenCube")
+                    {
+                        child.transform.localScale += new Vector3(0, (float)values[element] / 10, 0);
+                        break;
+                    }
+                }
                 cubes.Add(cube);
             }
         }
