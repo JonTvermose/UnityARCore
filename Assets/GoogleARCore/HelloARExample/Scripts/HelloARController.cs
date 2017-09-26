@@ -55,7 +55,7 @@ namespace GoogleARCore.HelloAR
         /// </summary>
         public GameObject m_searchingForPlaneUI;
 
-        private double[] values = {3, 1, 5};
+        private double[] values;
 
         private int elementNumber = 0;
 
@@ -86,6 +86,17 @@ namespace GoogleARCore.HelloAR
             new Color(1.0f, 0.921f, 0.231f),
             new Color(1.0f, 0.756f, 0.027f)
         };
+
+        public void RandomizeValues()
+        {
+            System.Random r = new System.Random();
+
+            values = new double[r.Next(2, 8)];
+            for (int i = 0; i < values.Length; i++)
+            {
+                values[i] = Math.Round(r.NextDouble() * 10, 2);
+            }
+        }
 
         /// <summary>
         /// The Unity Update() method.
@@ -143,6 +154,7 @@ namespace GoogleARCore.HelloAR
             // Add objects on touch, removes on second touch
             if (cubes.Count == 0)
             {
+                RandomizeValues();
                 for (var i = 0; i < values.Length; i++)
                     PlaceElement(touch, i);
             }
@@ -170,18 +182,18 @@ namespace GoogleARCore.HelloAR
 
                 // Intanstiate an Andy Android object as a child of the anchor; it's transform will now benefit
                 // from the anchor's tracking.
-                var cube = Instantiate(cubePrefab, hit.Point + new Vector3(0 + element * 0.1f,(float) values[element]/20.0f,0), Quaternion.identity, anchor.transform);
+                var cube = Instantiate(cubePrefab, hit.Point + new Vector3(0 + element * 0.1f,(float) values[element]/40.0f,0), Quaternion.identity, anchor.transform);
                 cube.GetComponentInChildren<Text>().text = values[element].ToString();
 
-                var embers = Instantiate(embersEffect, hit.Point + new Vector3(0 + element * 0.1f, (float)values[element]/10, 0), Quaternion.identity, anchor.transform);
+                var embers = Instantiate(embersEffect, hit.Point + new Vector3(0 + element * 0.1f, (float)values[element]/20, 0), Quaternion.identity, anchor.transform);
                 embers.transform.Rotate(embers.transform.rotation.x - 90, embers.transform.rotation.y, embers.transform.rotation.z);
 
                 // Scale the green cube
                 foreach (Transform child in cube.transform)
                 {
-                    if (child.gameObject.tag == "GrenCube")
+                    if (child.gameObject.tag == "GreenCube")
                     {
-                        child.transform.localScale += new Vector3(0, (float)values[element] / 10, 0);
+                        child.transform.localScale += new Vector3(0, (float)values[element] / 20 - child.transform.localScale.y, 0);
                         break;
                     }
                 }
