@@ -61,6 +61,8 @@ namespace GoogleARCore.HelloAR
 
         public GameObject cubePrefab;
 
+        public GameObject parentCube;
+
         public ParticleSystem embersEffect;
 
         public List<GameObject> cubes = new List<GameObject>();
@@ -157,6 +159,8 @@ namespace GoogleARCore.HelloAR
                 RandomizeValues();
                 for (var i = 0; i < values.Length; i++)
                     PlaceElement(touch, i);
+
+                parentCube.transform.LookAt(Camera.main.transform);
             }
             else
             {
@@ -172,6 +176,7 @@ namespace GoogleARCore.HelloAR
         private void PlaceElement(Touch touch, int element)
         {
             TrackableHitFlag raycastFilter = TrackableHitFlag.PlaneWithinBounds | TrackableHitFlag.PlaneWithinPolygon;
+            
 
             TrackableHit hit;
             if (Session.Raycast(m_firstPersonCamera.ScreenPointToRay(touch.position), raycastFilter, out hit))
@@ -198,6 +203,7 @@ namespace GoogleARCore.HelloAR
                     }
                 }
                 cubes.Add(cube);
+                cube.transform.parent = parentCube.transform;
             }
         }
 
