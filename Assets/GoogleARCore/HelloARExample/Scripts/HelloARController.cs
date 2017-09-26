@@ -21,6 +21,8 @@
 using System;
 using System.Collections;
 using System.Linq;
+using Assets.MyPrefabs.Scripts;
+using UnityEngine.UI;
 
 namespace GoogleARCore.HelloAR
 {
@@ -58,7 +60,7 @@ namespace GoogleARCore.HelloAR
 
         private int elementNumber = 0;
 
-        public GameObject valuesPrefab;
+        public GameObject cubePrefab;
 
         public ParticleSystem embersEffect;
 
@@ -169,7 +171,9 @@ namespace GoogleARCore.HelloAR
 
                 // Intanstiate an Andy Android object as a child of the anchor; it's transform will now benefit
                 // from the anchor's tracking.
-                var cube = Instantiate(valuesPrefab, hit.Point + new Vector3(0 + element * 0.1f,(float) values[element]/20.0f,0), Quaternion.identity, anchor.transform);
+                var cube = Instantiate(cubePrefab, hit.Point + new Vector3(0 + element * 0.1f,(float) values[element]/20.0f,0), Quaternion.identity, anchor.transform);
+                cube.GetComponentInChildren<Text>().text = values[element].ToString();
+
                 var embers = Instantiate(embersEffect, hit.Point + new Vector3(0 + element * 0.1f, (float)values[element]/10, 0), Quaternion.identity, anchor.transform);
                 embers.transform.Rotate(embers.transform.rotation.x - 90, embers.transform.rotation.y, embers.transform.rotation.z);
                 cube.transform.localScale += new Vector3(0, (float) values[element]/10, 0);
