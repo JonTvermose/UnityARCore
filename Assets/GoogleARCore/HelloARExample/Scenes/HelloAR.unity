@@ -259,6 +259,8 @@ MonoBehaviour:
   cubePrefab: {fileID: 1064901892107574, guid: c22e2dd288bfdff4b9a77b44bdc70c4c, type: 2}
   embersEffect: {fileID: 198870681087995840, guid: 7c3552e657d90dc49913adbdeed44813,
     type: 2}
+  fireTouch: {fileID: 198659988885566334, guid: 3fe62b91165aff346845fef6ff9ec2a2,
+    type: 2}
   cubes: []
 --- !u!20 &989943870 stripped
 Camera:

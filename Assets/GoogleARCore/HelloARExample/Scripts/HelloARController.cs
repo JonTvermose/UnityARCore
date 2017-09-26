@@ -63,6 +63,8 @@ namespace GoogleARCore.HelloAR
 
         public ParticleSystem embersEffect;
 
+        public ParticleSystem fireTouch;
+
         public List<GameObject> cubes = new List<GameObject>();
 
         private List<TrackedPlane> m_newPlanes = new List<TrackedPlane>();
@@ -155,6 +157,7 @@ namespace GoogleARCore.HelloAR
             if (cubes.Count == 0)
             {
                 RandomizeValues();
+                PlaceFireTouch(touch);
                 for (var i = 0; i < values.Length; i++)
                     PlaceElement(touch, i);
             }
@@ -167,6 +170,23 @@ namespace GoogleARCore.HelloAR
                 cubes = new List<GameObject>();
             }
 
+        }
+
+        private void PlaceFireTouch(Touch touch)
+        {
+            TrackableHitFlag raycastFilter = TrackableHitFlag.PlaneWithinBounds | TrackableHitFlag.PlaneWithinPolygon;
+
+            TrackableHit hit;
+            if (Session.Raycast(m_firstPersonCamera.ScreenPointToRay(touch.position), raycastFilter, out hit))
+            {
+                // Create an anchor to allow ARCore to track the hitpoint as understanding of the physical
+                // world evolves.
+                var anchor = Session.CreateAnchor(hit.Point, Quaternion.identity);
+
+                // Intanstiate an Andy Android object as a child of the anchor; it's transform will now benefit
+                // from the anchor's tracking.
+                Instantiate(fireTouch, hit.Point + new Vector3(0, 0, 0), Quaternion.identity, anchor.transform);
+            }
         }
 
         private void PlaceElement(Touch touch, int element)
