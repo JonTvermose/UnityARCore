@@ -61,7 +61,7 @@ namespace GoogleARCore.HelloAR
 
         public GameObject cubePrefab;
 
-        public GameObject parentCube;
+        public GameObject parentCubePrefab;
 
         public ParticleSystem embersEffect;
 
@@ -160,10 +160,9 @@ namespace GoogleARCore.HelloAR
             {
                 RandomizeValues();
                 PlaceFireTouch(touch);
-                for (var i = 0; i < values.Length; i++)
-                    PlaceElement(touch, i);
-
-                parentCube.transform.LookAt(Camera.main.transform);
+                //for (var i = 0; i < values.Length; i++)
+                //    PlaceElement(touch, i);
+                PlaceElement2(touch);                
             }
             else
             {
@@ -223,7 +222,50 @@ namespace GoogleARCore.HelloAR
                     }
                 }
                 cubes.Add(cube);
-                cube.transform.parent = parentCube.transform;
+            }
+        }
+
+        private void PlaceElement2(Touch touch)
+        {
+            TrackableHitFlag raycastFilter = TrackableHitFlag.PlaneWithinBounds | TrackableHitFlag.PlaneWithinPolygon;
+
+            TrackableHit hit;
+            if (Session.Raycast(m_firstPersonCamera.ScreenPointToRay(touch.position), raycastFilter, out hit))
+            {
+                // Create an anchor to allow ARCore to track the hitpoint as understanding of the physical
+                // world evolves.
+                var anchor = Session.CreateAnchor(hit.Point, Quaternion.identity);
+
+                var parentCube = Instantiate(parentCubePrefab,hit.Point, Quaternion.identity, anchor.transform);
+
+                int element;
+                for (var i = 0; i < values.Length; i++)
+                {
+                    element = i;
+                    // Intanstiate an Andy Android object as a child of the anchor; it's transform will now benefit
+                    // from the anchor's tracking.
+                    var cube = Instantiate(cubePrefab, hit.Point + new Vector3(0 + element * 0.1f, (float)values[element] / 40.0f, 0), Quaternion.identity, parentCube.transform);
+                    cube.GetComponentInChildren<Text>().text = values[element].ToString();
+
+                    var embers = Instantiate(embersEffect, hit.Point + new Vector3(0 + element * 0.1f, (float)values[element] / 20, 0), Quaternion.identity, parentCube.transform);
+                    embers.transform.Rotate(embers.transform.rotation.x - 90, embers.transform.rotation.y, embers.transform.rotation.z);
+
+                    // Scale the green cube
+                    foreach (Transform child in cube.transform)
+                    {
+                        if (child.gameObject.tag == "GreenCube")
+                        {
+                            child.transform.localScale += new Vector3(0, (float)values[element] / 20 - child.transform.localScale.y, 0);
+                            break;
+                        }
+                    }
+                    cubes.Add(cube);
+                    cube.transform.parent = parentCube.transform;
+                }
+                //parentCube.transform.rotation = Quaternion.AngleAxis(180, new Vector3(0,1,0));
+                parentCube.transform.LookAt(m_firstPersonCamera.transform);
+                parentCube.transform.rotation = Quaternion.Euler(0.0f,
+                    parentCube.transform.rotation.eulerAngles.y+180, parentCube.transform.rotation.z);
             }
         }
 

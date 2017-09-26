@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.43667546, g: 0.48427135, b: 0.5645225, a: 1}
+  m_IndirectSpecularColor: {r: 0.43667564, g: 0.48427135, b: 0.5645232, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -257,6 +257,8 @@ MonoBehaviour:
     type: 2}
   m_searchingForPlaneUI: {fileID: 1133631540}
   cubePrefab: {fileID: 1064901892107574, guid: c22e2dd288bfdff4b9a77b44bdc70c4c, type: 2}
+  parentCubePrefab: {fileID: 1941798447870306, guid: 1cccdff41ad2b52408dfcfa1c74e63c7,
+    type: 2}
   embersEffect: {fileID: 198870681087995840, guid: 7c3552e657d90dc49913adbdeed44813,
     type: 2}
   fireTouch: {fileID: 198659988885566334, guid: 3fe62b91165aff346845fef6ff9ec2a2,
@@ -291,7 +293,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1133631540}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -147, z: 0}
+  m_LocalPosition: {x: 0, y: -242.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1764419356}
@@ -480,7 +482,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1608144853}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 397.5, y: 227, z: 0}
+  m_LocalPosition: {x: 598, y: 322.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1133631541}
@@ -613,7 +615,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1764419355}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -317.5, y: 0, z: 0}
+  m_LocalPosition: {x: -518, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1133631541}
