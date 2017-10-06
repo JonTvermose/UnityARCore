@@ -43,6 +43,9 @@ public class CollisionManager : MonoBehaviour
         // Object has been touched by the player
         if (other.gameObject.CompareTag("Player"))
         {
+            // Vibrate the phone
+            Handheld.Vibrate();
+
             // Play a sound
             SoundManager.instance.PlayAudioClip(AudioClip);
 
