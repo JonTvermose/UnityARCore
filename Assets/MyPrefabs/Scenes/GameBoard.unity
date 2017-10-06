@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657844, g: 0.49641222, b: 0.57481694, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -190,6 +190,26 @@ CanvasRenderer:
     type: 2}
   m_PrefabInternal: {fileID: 1219824385}
   m_GameObject: {fileID: 281536520}
+--- !u!1 &477643398 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1493861335851568, guid: 0aafa3c252b92fb4881345d5d8c5075a,
+    type: 2}
+  m_PrefabInternal: {fileID: 1827767667}
+--- !u!114 &477643399
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 477643398}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c335790de5f5ec047a9cbf10807dbd4b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Obstacles:
+  - {fileID: 1405038130519688, guid: 259bb3129dbf0d647ad526c834e1928c, type: 2}
+  Pickup: {fileID: 1053897348336542, guid: 7ca20c06b0b50d54f95a2c69ebc4ffb0, type: 2}
+  Player: {fileID: 1144631599761862, guid: 7884b1b226208fb4d8eccdbe40049c97, type: 2}
 --- !u!1001 &524054900
 Prefab:
   m_ObjectHideFlags: 0
@@ -805,6 +825,10 @@ Prefab:
       value: 
       objectReference: {fileID: 1247827401852982, guid: 631b94849a87a7341baee39fe7fca689,
         type: 2}
+    - target: {fileID: 1493861335851568, guid: 0aafa3c252b92fb4881345d5d8c5075a, type: 2}
+      propertyPath: m_Name
+      value: SceneController
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 0aafa3c252b92fb4881345d5d8c5075a, type: 2}
   m_IsPrefabParent: 0

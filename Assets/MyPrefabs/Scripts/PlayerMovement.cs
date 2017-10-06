@@ -18,11 +18,11 @@ public class PlayerMovement : MonoBehaviour
 	    _currentTarget = transform.position;
         _directions = new Stack<Vector3>();
         // Test code
-        Stack<Vector3> stack = new Stack<Vector3>();
-        stack.Push(new Vector3(-5, 0, 0));
-        stack.Push(new Vector3(0, 0, 5));
-        stack.Push(new Vector3(4, 0, 0));
-        MovePlayer(stack);
+        //Stack<Vector3> stack = new Stack<Vector3>();
+        //stack.Push(new Vector3(-5, 0, 0));
+        //stack.Push(new Vector3(0, 0, 5));
+        //stack.Push(new Vector3(4, 0, 0));
+        //MovePlayer(stack);
     }
 	
 	// Update is called once per frame
