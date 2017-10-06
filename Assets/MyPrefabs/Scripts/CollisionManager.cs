@@ -13,26 +13,18 @@ public class CollisionManager : MonoBehaviour
 
     private bool isPickedUp = false;
 
-
     // Use this for initialization
-    void Start () {
-        // Play a sound
-        SoundManager.instance.PlayAudioClip(AudioClip);
-
-        // Play animation
-        Instantiate(ParticleSystem, transform.position, Quaternion.identity);
-
-        // start the timer countdown for gameobject deactivation
-        isPickedUp = true;
+    void Start ()
+    {
     }
 
     // Update is called once per frame
     void Update () {
 	    if (isPickedUp)
-	    {         
+	    {
 	        PickupDurationSeconds -= Time.deltaTime;
-	    }
-	    if (PickupDurationSeconds < 0)
+        }
+        if (PickupDurationSeconds < 0)
 	    {
 	        gameObject.SetActive(false);
 	    }
@@ -50,7 +42,7 @@ public class CollisionManager : MonoBehaviour
             SoundManager.instance.PlayAudioClip(AudioClip);
 
             // Play animation
-            Instantiate(ParticleSystem, transform.position, transform.rotation, transform);
+            Instantiate(ParticleSystem, transform.position, transform.rotation);
 
             // start the timer countdown for gameobject deactivation
             isPickedUp = true;

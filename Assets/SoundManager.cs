@@ -10,11 +10,17 @@ public class SoundManager : MonoBehaviour
     private AudioSource _audioSource;
 
 	// Use this for initialization
-	void Start ()
+	void Awake ()
 	{
 	    if (instance == null)
+	    {
 	        instance = this;
-	    _audioSource = gameObject.GetComponent<AudioSource>();
+	    }
+	    else
+	    {
+	        Destroy(gameObject);
+	    }
+        _audioSource = gameObject.GetComponent<AudioSource>();
 	}
 	
 	// Update is called once per frame
