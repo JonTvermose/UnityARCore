@@ -56,10 +56,14 @@ namespace GoogleARCore.HelloAR
         public GameObject m_searchingForPlaneUI;
 
         private double[] values;
+        private Vector3[,] tilesArray;
 
         private int elementNumber = 0;
 
         public GameObject cubePrefab;
+
+        public GameObject tilePrefab;
+        public List<GameObject> tiles = new List<GameObject>();
 
         public GameObject parentCubePrefab;
 
@@ -101,6 +105,8 @@ namespace GoogleARCore.HelloAR
                 values[i] = Math.Round(r.NextDouble() * 10, 2);
             }
         }
+
+        
 
         /// <summary>
         /// The Unity Update() method.
@@ -154,25 +160,49 @@ namespace GoogleARCore.HelloAR
             {
                 return;
             }
-            
-            // Add objects on touch, removes on second touch
-            if (cubes.Count == 0)
-            {
-                RandomizeValues();
-                PlaceFireTouch(touch);
-                //for (var i = 0; i < values.Length; i++)
-                //    PlaceElement(touch, i);
-                PlaceElement2(touch);                
-            }
-            else
-            {
-                foreach (var cube in cubes)
-                {
-                    Destroy(cube);
-                }
-                cubes = new List<GameObject>();
-            }
 
+            // Add objects on touch, removes on second touch
+            //if (cubes.Count == 0)
+            //{
+            //    RandomizeValues();
+            //    PlaceFireTouch(touch);
+            //    for (var i = 0; i < values.Length; i++)
+            //    PlaceElement(touch, i);
+            //}
+            //else
+            //{
+            //    foreach (var cube in cubes)
+            //    {
+            //        Destroy(cube);
+            //    }
+            //    cubes = new List<GameObject>();
+            //}
+
+            makeTileArray();
+
+            if (tiles.Count==0)
+            {
+                PlaceElement3(touch);
+            } else
+            {
+                foreach (var tile in tiles)
+                {
+                    Destroy(tile);
+                }
+                tiles = new List<GameObject>();
+            }
+        }
+
+        private void makeTileArray()
+        {
+            tilesArray = new Vector3[7,5];
+            for (int i = 0; i < tilesArray.GetLength(0); i++)
+            {
+                for (int j = 0; j < tilesArray.GetLength(1); j++)
+                {
+                    tilesArray[i, j] = new Vector3(i,0,j);
+                }
+            }
         }
 
         private void PlaceFireTouch(Touch touch)
@@ -264,8 +294,52 @@ namespace GoogleARCore.HelloAR
                 }
                 //parentCube.transform.rotation = Quaternion.AngleAxis(180, new Vector3(0,1,0));
                 parentCube.transform.LookAt(m_firstPersonCamera.transform);
-                parentCube.transform.rotation = Quaternion.Euler(0.0f,
-                    parentCube.transform.rotation.eulerAngles.y+180, parentCube.transform.rotation.z);
+                parentCube.transform.rotation = Quaternion.Euler(0.0f, parentCube.transform.rotation.eulerAngles.y+180, parentCube.transform.rotation.z);
+            }
+        }
+
+        private void PlaceElement3(Touch touch)
+        {
+            TrackableHitFlag raycastFilter = TrackableHitFlag.PlaneWithinBounds | TrackableHitFlag.PlaneWithinPolygon;
+            
+            TrackableHit hit;
+            if (Session.Raycast(m_firstPersonCamera.ScreenPointToRay(touch.position), raycastFilter, out hit))
+            {
+                // Create an anchor to allow ARCore to track the hitpoint as understanding of the physical
+                // world evolves.
+                var anchor = Session.CreateAnchor(hit.Point, Quaternion.identity);
+                var parentTile = Instantiate(parentCubePrefab, hit.Point, Quaternion.identity, anchor.transform);
+                //parentTile.transform.localScale = new Vector3(0.1f, 1f, 0.1f);
+                //parentTile.transform.position = new Vector3(hit.Point.x, hit.Point.y, hit.Point.z);
+                // Intanstiate an Andy Android object as a child of the anchor; it's transform will now benefit
+                // from the anchor's tracking.
+                Vector3 centerTransform = new Vector3();
+
+                for (int i = 0; i < tilesArray.GetLength(0); i++)
+                {
+                    for (int j = 0; j < tilesArray.GetLength(1); j++)
+                    {
+                        var tile = Instantiate(tilePrefab, hit.Point + new Vector3(0 + tilesArray[i,j].x * 0.104f,0 , 0 + tilesArray[i, j].z * 0.104f), Quaternion.identity, parentTile.transform);
+                        tile.transform.parent = parentTile.transform;
+                        tiles.Add(tile);
+                        if (i==3 && j == 2)
+                        {
+                            centerTransform = tile.transform.position;
+                        }
+                    }
+                }
+
+                //float newX = Math.Abs(hit.Point.x - centerTransform.x);
+                //float newY = hit.Point.y - centerTransform.y;
+                //float newZ = hit.Point.z - centerTransform.z;
+                //float x2 = Math.Abs(hit.Point.x - newX);
+
+                //parentTile.transform.position = new Vector3(hit.Point.x - newX, hit.Point.y, hit.Point.z);
+                parentTile.transform.LookAt(m_firstPersonCamera.transform);
+                parentTile.transform.rotation = Quaternion.Euler(0.0f, parentTile.transform.rotation.eulerAngles.y + 180, parentTile.transform.rotation.z);
+                //parentTile.transform.position = new Vector3(parentTile.transform.position.x-centerTransform.x, parentTile.transform.position.y, parentTile.transform.position.z);
+                //parentTile.transform.position = new Vector3(centerTransform.x, hit.Point.y, hit.Point.z);
+                //parentTile.transform.position = m_firstPersonCamera.ScreenToWorldPoint(new Vector3(Screen.width / 2, Screen.height / 2, m_firstPersonCamera.nearClipPlane));
             }
         }
 
