@@ -6,6 +6,7 @@ TagManager:
   tags:
   - CubeText
   - GreenCube
+  - SoundManager
   layers:
   - Default
   - TransparentFX
