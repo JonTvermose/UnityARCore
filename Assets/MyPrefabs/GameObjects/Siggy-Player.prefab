@@ -1448,3 +1448,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MovementSpeed: 1
   MaxTurnSpeed: 90
+  DirectionButtons:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}

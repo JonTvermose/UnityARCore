@@ -206,7 +206,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 946248746}
+      - m_Target: {fileID: 2090311408}
         m_MethodName: AddMove
         m_Mode: 3
         m_Arguments:
@@ -645,7 +645,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 946248746}
+      - m_Target: {fileID: 2090311408}
         m_MethodName: AddMove
         m_Mode: 3
         m_Arguments:
@@ -929,7 +929,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 946248746}
+      - m_Target: {fileID: 2090311408}
         m_MethodName: AddMove
         m_Mode: 3
         m_Arguments:
@@ -1069,7 +1069,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 946248746}
+      - m_Target: {fileID: 2090311408}
         m_MethodName: AddMove
         m_Mode: 3
         m_Arguments:
@@ -1180,52 +1180,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
---- !u!1 &946248745
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 946248747}
-  - component: {fileID: 946248746}
-  m_Layer: 0
-  m_Name: MovesController
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &946248746
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 946248745}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ab058589532c8b546b47057b58fb69d7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Player: {fileID: 1245514448989946, guid: 7884b1b226208fb4d8eccdbe40049c97, type: 2}
-  DirectionButtons:
-  - {fileID: 573035301}
-  - {fileID: 799093273}
-  - {fileID: 382000542}
-  - {fileID: 46495967}
---- !u!4 &946248747
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 946248745}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 8
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &991248636
 GameObject:
   m_ObjectHideFlags: 0
@@ -1238,7 +1192,7 @@ GameObject:
   - component: {fileID: 991248639}
   - component: {fileID: 991248638}
   m_Layer: 5
-  m_Name: LeftBar
+  m_Name: LeftButtonBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1392,7 +1346,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 946248746}
+      - m_Target: {fileID: 2090311408}
         m_MethodName: ExecuteMoves
         m_Mode: 1
         m_Arguments:
@@ -2039,3 +1993,71 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &2090311407
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4920451147230028, guid: 7884b1b226208fb4d8eccdbe40049c97, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4920451147230028, guid: 7884b1b226208fb4d8eccdbe40049c97, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4920451147230028, guid: 7884b1b226208fb4d8eccdbe40049c97, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4920451147230028, guid: 7884b1b226208fb4d8eccdbe40049c97, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4920451147230028, guid: 7884b1b226208fb4d8eccdbe40049c97, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4920451147230028, guid: 7884b1b226208fb4d8eccdbe40049c97, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4920451147230028, guid: 7884b1b226208fb4d8eccdbe40049c97, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4920451147230028, guid: 7884b1b226208fb4d8eccdbe40049c97, type: 2}
+      propertyPath: m_RootOrder
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 114764010854952046, guid: 7884b1b226208fb4d8eccdbe40049c97,
+        type: 2}
+      propertyPath: DirectionButtons.Array.data[0]
+      value: 
+      objectReference: {fileID: 573035301}
+    - target: {fileID: 114764010854952046, guid: 7884b1b226208fb4d8eccdbe40049c97,
+        type: 2}
+      propertyPath: DirectionButtons.Array.data[1]
+      value: 
+      objectReference: {fileID: 799093273}
+    - target: {fileID: 114764010854952046, guid: 7884b1b226208fb4d8eccdbe40049c97,
+        type: 2}
+      propertyPath: DirectionButtons.Array.data[2]
+      value: 
+      objectReference: {fileID: 382000542}
+    - target: {fileID: 114764010854952046, guid: 7884b1b226208fb4d8eccdbe40049c97,
+        type: 2}
+      propertyPath: DirectionButtons.Array.data[3]
+      value: 
+      objectReference: {fileID: 46495967}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: 7884b1b226208fb4d8eccdbe40049c97, type: 2}
+  m_IsPrefabParent: 0
+--- !u!114 &2090311408 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114764010854952046, guid: 7884b1b226208fb4d8eccdbe40049c97,
+    type: 2}
+  m_PrefabInternal: {fileID: 2090311407}
+  m_Script: {fileID: 11500000, guid: bdf8900b41fcd0846bb500f667d1970f, type: 3}

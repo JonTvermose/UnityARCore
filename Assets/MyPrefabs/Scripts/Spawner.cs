@@ -13,8 +13,6 @@ public class Spawner : MonoBehaviour
 
     void Start()
     {
-        // Test code
-        Instantiate(Player, new Vector3(0,0,0), Quaternion.identity);
     }
 
     void SpawnAll(int[][] indicator, Vector3[][] positions)
