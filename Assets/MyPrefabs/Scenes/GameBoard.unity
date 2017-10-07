@@ -209,7 +209,7 @@ MonoBehaviour:
   Obstacles:
   - {fileID: 1405038130519688, guid: 259bb3129dbf0d647ad526c834e1928c, type: 2}
   Pickup: {fileID: 1053897348336542, guid: 7ca20c06b0b50d54f95a2c69ebc4ffb0, type: 2}
-  Player: {fileID: 1144631599761862, guid: 7884b1b226208fb4d8eccdbe40049c97, type: 2}
+  Player: {fileID: 1245514448989946, guid: 7884b1b226208fb4d8eccdbe40049c97, type: 2}
 --- !u!1001 &524054900
 Prefab:
   m_ObjectHideFlags: 0
