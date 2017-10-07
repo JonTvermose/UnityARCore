@@ -37,7 +37,7 @@ public class PlayerMovement : MonoBehaviour
 	        _isTurning = true;
 
             // init movement and pause pop
-	        _isMoving = true;
+	        _isMoving = false;
 	    }
 	    if (_isTurning)
 	    {
@@ -68,7 +68,7 @@ public class PlayerMovement : MonoBehaviour
 	}
 
     // Start moving the player in the given directions. Y should always be 0
-    void MovePlayer(Stack<Vector3> directions)
+    public void MovePlayer(Stack<Vector3> directions)
     {
         _directions = directions;
     }

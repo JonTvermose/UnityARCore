@@ -11,6 +11,12 @@ public class Spawner : MonoBehaviour
 
     public GameObject Player;
 
+    void Start()
+    {
+        // Test code
+        Instantiate(Player, new Vector3(0,0,0), Quaternion.identity);
+    }
+
     void SpawnAll(int[][] indicator, Vector3[][] positions)
     {
         if (Obstacles == null || Pickup == null || Player == null)
