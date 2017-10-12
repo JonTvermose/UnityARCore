@@ -11,11 +11,13 @@ public class Spawner : MonoBehaviour
 
     public GameObject Player;
 
+    private List<GameObject> spawnedObjects = new List<GameObject>();
+
     void Start()
     {
     }
 
-    void SpawnAll(int[][] indicator, Vector3[][] positions)
+    public void SpawnAll(int[,] indicator, GameObject[,] tiles)
     {
         if (Obstacles == null || Pickup == null || Player == null)
             return;
@@ -26,7 +28,7 @@ public class Spawner : MonoBehaviour
             for (int j = 0; j < indicator.GetLength(1); j++)
             {
                 GameObject spawnObject = null;
-                switch (indicator[i][j])
+                switch (indicator[i,j])
                 {
                     case -1: spawnObject = Player; break;
                     case 1: spawnObject = Pickup; break;
@@ -35,9 +37,20 @@ public class Spawner : MonoBehaviour
                 }
                 if (spawnObject != null)
                 {
-                    Instantiate(spawnObject, positions[i][j], Quaternion.identity);
+                    GameObject spawnedObject = Instantiate(spawnObject, tiles[i, j].transform.position, Quaternion.identity);
+                    spawnedObject.transform.position += new Vector3(0f,0.045f,0f);
+                    spawnedObjects.Add(spawnedObject);
                 }
             }
         }
+    }
+
+    public void DestroyAll()
+    {
+        foreach (GameObject item in spawnedObjects)
+        {
+            Destroy(item);
+        }
+        spawnedObjects = new List<GameObject>();
     }
 }

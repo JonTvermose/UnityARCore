@@ -55,8 +55,9 @@ namespace GoogleARCore.HelloAR
         /// </summary>
         public GameObject m_searchingForPlaneUI;
 
-        private double[] values;
-        private Vector3[,] tilesArray;
+        private Spawner spawnerScript;
+
+        private int[,] pickupPosArray;
 
         private int elementNumber = 0;
 
@@ -95,18 +96,10 @@ namespace GoogleARCore.HelloAR
             new Color(1.0f, 0.756f, 0.027f)
         };
 
-        public void RandomizeValues()
+        public void Start()
         {
-            System.Random r = new System.Random();
-
-            values = new double[r.Next(2, 8)];
-            for (int i = 0; i < values.Length; i++)
-            {
-                values[i] = Math.Round(r.NextDouble() * 10, 2);
-            }
+            spawnerScript = gameObject.GetComponent<Spawner>();
         }
-
-        
 
         /// <summary>
         /// The Unity Update() method.
@@ -161,28 +154,13 @@ namespace GoogleARCore.HelloAR
                 return;
             }
 
+            //Creates array of pickups on the gameboard
+            makePickupArray();
+
             // Add objects on touch, removes on second touch
-            //if (cubes.Count == 0)
-            //{
-            //    RandomizeValues();
-            //    PlaceFireTouch(touch);
-            //    for (var i = 0; i < values.Length; i++)
-            //    PlaceElement(touch, i);
-            //}
-            //else
-            //{
-            //    foreach (var cube in cubes)
-            //    {
-            //        Destroy(cube);
-            //    }
-            //    cubes = new List<GameObject>();
-            //}
-
-            makeTileArray();
-
             if (tiles.Count==0)
             {
-                PlaceElement3(touch);
+                PlaceElement(touch);
             } else
             {
                 foreach (var tile in tiles)
@@ -190,17 +168,25 @@ namespace GoogleARCore.HelloAR
                     Destroy(tile);
                 }
                 tiles = new List<GameObject>();
+                spawnerScript.DestroyAll();
             }
         }
 
-        private void makeTileArray()
+        private void makePickupArray()
         {
-            tilesArray = new Vector3[7,5];
-            for (int i = 0; i < tilesArray.GetLength(0); i++)
+            pickupPosArray = new int[7, 5];
+            for (int i = 0; i < pickupPosArray.GetLength(0); i++)
             {
-                for (int j = 0; j < tilesArray.GetLength(1); j++)
+                for (int j = 0; j < pickupPosArray.GetLength(1); j++)
                 {
-                    tilesArray[i, j] = new Vector3(i,0,j);
+                    if (i%2 == 0 && j%2 == 0)
+                    {
+                        pickupPosArray[i, j] = 1;
+                    }
+                    else
+                    {
+                        pickupPosArray[i, j] = 0;
+                    }
                 }
             }
         }
@@ -220,85 +206,9 @@ namespace GoogleARCore.HelloAR
                 // from the anchor's tracking.
                 Instantiate(fireTouch, hit.Point + new Vector3(0, 0, 0), Quaternion.identity, anchor.transform);
             }
-        }
+        }        
 
-        private void PlaceElement(Touch touch, int element)
-        {
-            TrackableHitFlag raycastFilter = TrackableHitFlag.PlaneWithinBounds | TrackableHitFlag.PlaneWithinPolygon;
-            
-
-            TrackableHit hit;
-            if (Session.Raycast(m_firstPersonCamera.ScreenPointToRay(touch.position), raycastFilter, out hit))
-            {
-                // Create an anchor to allow ARCore to track the hitpoint as understanding of the physical
-                // world evolves.
-                var anchor = Session.CreateAnchor(hit.Point, Quaternion.identity);
-
-                // Intanstiate an Andy Android object as a child of the anchor; it's transform will now benefit
-                // from the anchor's tracking.
-                var cube = Instantiate(cubePrefab, hit.Point + new Vector3(0 + element * 0.1f,(float) values[element]/40.0f,0), Quaternion.identity, anchor.transform);
-                cube.GetComponentInChildren<Text>().text = values[element].ToString();
-
-                var embers = Instantiate(embersEffect, hit.Point + new Vector3(0 + element * 0.1f, (float)values[element]/20, 0), Quaternion.identity, anchor.transform);
-                embers.transform.Rotate(embers.transform.rotation.x - 90, embers.transform.rotation.y, embers.transform.rotation.z);
-
-                // Scale the green cube
-                foreach (Transform child in cube.transform)
-                {
-                    if (child.gameObject.tag == "GreenCube")
-                    {
-                        child.transform.localScale += new Vector3(0, (float)values[element] / 20 - child.transform.localScale.y, 0);
-                        break;
-                    }
-                }
-                cubes.Add(cube);
-            }
-        }
-
-        private void PlaceElement2(Touch touch)
-        {
-            TrackableHitFlag raycastFilter = TrackableHitFlag.PlaneWithinBounds | TrackableHitFlag.PlaneWithinPolygon;
-
-            TrackableHit hit;
-            if (Session.Raycast(m_firstPersonCamera.ScreenPointToRay(touch.position), raycastFilter, out hit))
-            {
-                // Create an anchor to allow ARCore to track the hitpoint as understanding of the physical
-                // world evolves.
-                var anchor = Session.CreateAnchor(hit.Point, Quaternion.identity);
-
-                var parentCube = Instantiate(parentCubePrefab,hit.Point, Quaternion.identity, anchor.transform);
-
-                int element;
-                for (var i = 0; i < values.Length; i++)
-                {
-                    element = i;
-                    // Intanstiate an Andy Android object as a child of the anchor; it's transform will now benefit
-                    // from the anchor's tracking.
-                    var cube = Instantiate(cubePrefab, hit.Point + new Vector3(0 + element * 0.1f, (float)values[element] / 40.0f, 0), Quaternion.identity, parentCube.transform);
-                    cube.GetComponentInChildren<Text>().text = values[element].ToString();
-
-                    var embers = Instantiate(embersEffect, hit.Point + new Vector3(0 + element * 0.1f, (float)values[element] / 20, 0), Quaternion.identity, parentCube.transform);
-                    embers.transform.Rotate(embers.transform.rotation.x - 90, embers.transform.rotation.y, embers.transform.rotation.z);
-
-                    // Scale the green cube
-                    foreach (Transform child in cube.transform)
-                    {
-                        if (child.gameObject.tag == "GreenCube")
-                        {
-                            child.transform.localScale += new Vector3(0, (float)values[element] / 20 - child.transform.localScale.y, 0);
-                            break;
-                        }
-                    }
-                    cubes.Add(cube);
-                    cube.transform.parent = parentCube.transform;
-                }
-                //parentCube.transform.rotation = Quaternion.AngleAxis(180, new Vector3(0,1,0));
-                parentCube.transform.LookAt(m_firstPersonCamera.transform);
-                parentCube.transform.rotation = Quaternion.Euler(0.0f, parentCube.transform.rotation.eulerAngles.y+180, parentCube.transform.rotation.z);
-            }
-        }
-
-        private void PlaceElement3(Touch touch)
+        private void PlaceElement(Touch touch)
         {
             TrackableHitFlag raycastFilter = TrackableHitFlag.PlaneWithinBounds | TrackableHitFlag.PlaneWithinPolygon;
             
@@ -307,39 +217,27 @@ namespace GoogleARCore.HelloAR
             {
                 // Create an anchor to allow ARCore to track the hitpoint as understanding of the physical
                 // world evolves.
-                var anchor = Session.CreateAnchor(hit.Point, Quaternion.identity);
-                var parentTile = Instantiate(parentCubePrefab, hit.Point, Quaternion.identity, anchor.transform);
-                //parentTile.transform.localScale = new Vector3(0.1f, 1f, 0.1f);
-                //parentTile.transform.position = new Vector3(hit.Point.x, hit.Point.y, hit.Point.z);
-                // Intanstiate an Andy Android object as a child of the anchor; it's transform will now benefit
-                // from the anchor's tracking.
-                Vector3 centerTransform = new Vector3();
+                Anchor anchor = Session.CreateAnchor(hit.Point, Quaternion.identity);
 
-                for (int i = 0; i < tilesArray.GetLength(0); i++)
+                GameObject parentTile = Instantiate(parentCubePrefab, hit.Point, Quaternion.identity, anchor.transform);
+                GameObject[,] tilesArray = new GameObject[7, 5];
+
+                // Intanstiate an tile objects as a child of the anchor; it's transform will now benefit
+                // from the anchor's tracking.
+                for (int i = 0; i < 7; i++)
                 {
-                    for (int j = 0; j < tilesArray.GetLength(1); j++)
+                    for (int j = 0; j < 5; j++)
                     {
-                        var tile = Instantiate(tilePrefab, hit.Point + new Vector3(0 + tilesArray[i,j].x * 0.104f,0 , 0 + tilesArray[i, j].z * 0.104f), Quaternion.identity, parentTile.transform);
+                        Vector3 tilePos = hit.Point + new Vector3(0 + i * 0.104f, 0.1f, 0 + j * 0.104f);
+                        GameObject tile = Instantiate(tilePrefab, tilePos, Quaternion.identity, parentTile.transform);
                         tile.transform.parent = parentTile.transform;
                         tiles.Add(tile);
-                        if (i==3 && j == 2)
-                        {
-                            centerTransform = tile.transform.position;
-                        }
+                        tilesArray[i, j] = tile;
                     }
                 }
-
-                //float newX = Math.Abs(hit.Point.x - centerTransform.x);
-                //float newY = hit.Point.y - centerTransform.y;
-                //float newZ = hit.Point.z - centerTransform.z;
-                //float x2 = Math.Abs(hit.Point.x - newX);
-
-                //parentTile.transform.position = new Vector3(hit.Point.x - newX, hit.Point.y, hit.Point.z);
                 parentTile.transform.LookAt(m_firstPersonCamera.transform);
                 parentTile.transform.rotation = Quaternion.Euler(0.0f, parentTile.transform.rotation.eulerAngles.y + 180, parentTile.transform.rotation.z);
-                //parentTile.transform.position = new Vector3(parentTile.transform.position.x-centerTransform.x, parentTile.transform.position.y, parentTile.transform.position.z);
-                //parentTile.transform.position = new Vector3(centerTransform.x, hit.Point.y, hit.Point.z);
-                //parentTile.transform.position = m_firstPersonCamera.ScreenToWorldPoint(new Vector3(Screen.width / 2, Screen.height / 2, m_firstPersonCamera.nearClipPlane));
+                spawnerScript.SpawnAll(pickupPosArray,tilesArray);
             }
         }
 
