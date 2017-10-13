@@ -7,6 +7,7 @@ TagManager:
   - CubeText
   - GreenCube
   - SoundManager
+  - UIBar
   layers:
   - Default
   - TransparentFX

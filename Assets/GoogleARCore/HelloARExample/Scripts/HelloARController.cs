@@ -21,6 +21,7 @@
 using System;
 using System.Collections;
 using System.Linq;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace GoogleARCore.HelloAR
@@ -99,6 +100,7 @@ namespace GoogleARCore.HelloAR
         public void Start()
         {
             spawnerScript = gameObject.GetComponent<Spawner>();
+            makePickupArray();
         }
 
         /// <summary>
@@ -149,17 +151,16 @@ namespace GoogleARCore.HelloAR
             m_searchingForPlaneUI.SetActive(showSearchingUI);
 
             Touch touch;
-            if (Input.touchCount < 1 || (touch = Input.GetTouch(0)).phase != TouchPhase.Began)
+            if (Input.touchCount < 1 || (touch = Input.GetTouch(0)).phase != TouchPhase.Began || IsUiTouch(touch))
             {
                 return;
             }
 
-            //Creates array of pickups on the gameboard
-            makePickupArray();
-
             // Add objects on touch, removes on second touch
             if (tiles.Count==0)
             {
+                //Creates array of pickups on the gameboard
+                makePickupArray();
                 PlaceElement(touch);
             } else
             {
@@ -170,6 +171,17 @@ namespace GoogleARCore.HelloAR
                 tiles = new List<GameObject>();
                 spawnerScript.DestroyAll();
             }
+        }
+
+        private bool IsUiTouch(Touch touch)
+        {
+            int id = touch.fingerId;
+            if (EventSystem.current.IsPointerOverGameObject(id))
+            {
+                // ui touched
+                return true;
+            }
+            return false;
         }
 
         private void makePickupArray()

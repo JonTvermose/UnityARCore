@@ -30,7 +30,7 @@ public class Spawner : MonoBehaviour
                 GameObject spawnObject = null;
                 switch (indicator[i,j])
                 {
-                    case -1: spawnObject = Player; break;
+                    case -1: SpawnPlayer(cam, tiles[i,j]); break;
                     case 1: spawnObject = Pickup; break;
                     case 2: spawnObject = Obstacles[r.Next(Obstacles.Length)]; break;
                     default: break;
@@ -40,15 +40,18 @@ public class Spawner : MonoBehaviour
                     GameObject tile = tiles[i,j];
                     GameObject spawnedObject = Instantiate(spawnObject, tile.transform.position, Quaternion.identity);
                     spawnedObject.transform.position += new Vector3(0f,0.045f,0f);
-                    if (indicator[i, j]==-1)
-                    {
-                        spawnedObject.transform.LookAt(cam.transform);
-                        spawnedObject.transform.rotation = Quaternion.Euler(0.0f, spawnedObject.transform.rotation.eulerAngles.y, spawnedObject.transform.rotation.z);
-                    }
                     spawnedObjects.Add(spawnedObject);
                 }
             }
         }
+    }
+
+    void SpawnPlayer(Camera cam, GameObject tile)
+    {
+        Player.transform.position = tile.transform.position;
+        Player.transform.LookAt(cam.transform);
+        Player.transform.rotation = Quaternion.Euler(0.0f, Player.transform.rotation.eulerAngles.y, Player.transform.rotation.z);
+        Player.SetActive(true);
     }
 
     public void DestroyAll()
@@ -57,6 +60,7 @@ public class Spawner : MonoBehaviour
         {
             Destroy(item);
         }
+        Player.SetActive(false);
         spawnedObjects = new List<GameObject>();
     }
 }
