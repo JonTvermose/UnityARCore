@@ -179,7 +179,7 @@ namespace GoogleARCore.HelloAR
             {
                 for (int j = 0; j < pickupPosArray.GetLength(1); j++)
                 {
-                    if (i%2 == 0 && j%2 == 0)
+                    if (i % 2 == 0 && j % 2 == 0)
                     {
                         pickupPosArray[i, j] = 1;
                     }
@@ -189,6 +189,7 @@ namespace GoogleARCore.HelloAR
                     }
                 }
             }
+            pickupPosArray[0, 0] = -1;
         }
 
         private void PlaceFireTouch(Touch touch)
@@ -237,7 +238,7 @@ namespace GoogleARCore.HelloAR
                 }
                 parentTile.transform.LookAt(m_firstPersonCamera.transform);
                 parentTile.transform.rotation = Quaternion.Euler(0.0f, parentTile.transform.rotation.eulerAngles.y + 180, parentTile.transform.rotation.z);
-                spawnerScript.SpawnAll(pickupPosArray,tilesArray);
+                spawnerScript.SpawnAll(pickupPosArray,tilesArray,m_firstPersonCamera);
             }
         }
 

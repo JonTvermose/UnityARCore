@@ -17,7 +17,7 @@ public class Spawner : MonoBehaviour
     {
     }
 
-    public void SpawnAll(int[,] indicator, GameObject[,] tiles)
+    public void SpawnAll(int[,] indicator, GameObject[,] tiles,Camera cam)
     {
         if (Obstacles == null || Pickup == null || Player == null)
             return;
@@ -37,8 +37,14 @@ public class Spawner : MonoBehaviour
                 }
                 if (spawnObject != null)
                 {
-                    GameObject spawnedObject = Instantiate(spawnObject, tiles[i, j].transform.position, Quaternion.identity);
+                    GameObject tile = tiles[i,j];
+                    GameObject spawnedObject = Instantiate(spawnObject, tile.transform.position, Quaternion.identity);
                     spawnedObject.transform.position += new Vector3(0f,0.045f,0f);
+                    if (indicator[i, j]==-1)
+                    {
+                        spawnedObject.transform.LookAt(cam.transform);
+                        spawnedObject.transform.rotation = Quaternion.Euler(0.0f, spawnedObject.transform.rotation.eulerAngles.y, spawnedObject.transform.rotation.z);
+                    }
                     spawnedObjects.Add(spawnedObject);
                 }
             }
