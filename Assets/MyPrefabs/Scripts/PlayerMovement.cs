@@ -1,20 +1,21 @@
-﻿using System.Collections;
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class PlayerMovement : MonoBehaviour
 {
 
     public float MovementSpeed = 1.0f;
     public int MaxTurnSpeed = 180; // Degrees / second
-    public float DistanceScaler = 1.0f;
+    public float DistanceScaler = 0.104f;
     
     private Stack<Vector3> _directions;
     private bool _isMoving, _isTurning;
     private Vector3 _currentTarget;
     private int _maxAngleDelta = 2; // Maximum error acceptable between 
-    private bool _isExecuting;
+    public bool IsExecuting;
+
+    public EventHandler DoneExecutingHandler;
 
     // Use this for initialization
     void Start () {
@@ -25,20 +26,25 @@ public class PlayerMovement : MonoBehaviour
 	// Update is called once per frame
 	void Update () {
         // Dont pop if we have nothing to pop, or are in the process of changing position or rotation
-	    if (_isExecuting && !_isMoving && !_isTurning)
+	    if (IsExecuting && !_isMoving && !_isTurning)
 	    {
 	        // pop - get next target positions
-	        _currentTarget += _directions.Pop() * DistanceScaler;
+	        var temp = _directions.Pop();
+            // Scale length of movement
+	        temp.x = temp.x > 0.1 ? DistanceScaler : 0;
+	        temp.z = temp.z > 0.1 ? DistanceScaler : 0;
 
+            _currentTarget += temp;
+            
             // init turn
-	        _isTurning = true;
+            _isTurning = true;
 
             // init movement and pause pop
 	        _isMoving = false;
 
 	        // Stop the loop
 	        if (_directions.Count == 0)
-	            _isExecuting = false;
+	            IsExecuting = false;
         }
 	    if (_isTurning)
 	    {
@@ -61,9 +67,13 @@ public class PlayerMovement : MonoBehaviour
 	            Vector3.Lerp(gameObject.transform.position, _currentTarget, MovementSpeed * Time.deltaTime);
 
             // Check if we reached our target position
-	        if (Vector3.Distance(transform.position, _currentTarget) < 0.1f)
+	        if (Mathf.Abs(Vector3.Distance(transform.position, _currentTarget)) < 0.01f)
 	        {
 	            _isMoving = false;
+	            if (!IsExecuting && DoneExecutingHandler != null)
+	            {
+	                DoneExecutingHandler.Invoke(this, new EventArgs());
+	            }
 	        }
 	    }
 	}
@@ -71,7 +81,9 @@ public class PlayerMovement : MonoBehaviour
     // Start moving the player in the given directions. Y should always be 0
     public void MovePlayer(Stack<Vector3> directions)
     {
-        _directions = directions;
-        _isExecuting = true;
+        // Copy the stack to _directions. Looks silly, but is neccesary to keep the order
+        _directions = new Stack<Vector3>(new Stack<Vector3>(directions));
+        IsExecuting = true;
     }
 }
+

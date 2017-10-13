@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -19,11 +20,6 @@ public class InputController : MonoBehaviour {
         {
             _numberTexts[i] = DirectionButtons[i].GetComponentInChildren<Text>();
         }
-        _directions.Push(new Vector3(1, 0, 0));
-        _directions.Push(new Vector3(0, 0, 1));
-        _directions.Push(new Vector3(1, 0, 0));
-        _directions.Push(new Vector3(1, 0, 0));
-        _directions.Push(new Vector3(0, 0, 1));
     }
 
     // Update is called once per frame
@@ -31,12 +27,17 @@ public class InputController : MonoBehaviour {
 	    if (_player == null)
 	    {
 	        _player = GameObject.FindGameObjectWithTag("Player");
-            ExecuteMoves();
-	    }
+        }
 	}
 
     public void AddMove(int direction)
     {
+        if (_player != null)
+        {
+            if (_player.GetComponent<PlayerMovement>().IsExecuting)
+                return;
+        }
+
         // Add direction vector
         Vector3 dirVector;
         switch (direction)
@@ -68,7 +69,26 @@ public class InputController : MonoBehaviour {
     public void ExecuteMoves()
     {
         var temp = _player.GetComponent<PlayerMovement>();
-        if(temp != null)
+        if (temp != null)
+        {
+            temp.DoneExecutingHandler += ExecuteHandler;
             temp.MovePlayer(_directions);
+            // Clear stack as the stack will be copied in PlayerMovement
+            _directions.Clear();
+        }
+        SetButtonsInteractable(false);
+    }
+
+    public void SetButtonsInteractable(bool value)
+    {
+        foreach (GameObject button in DirectionButtons)
+        {
+            button.GetComponent<Button>().interactable = value;
+        }
+    }
+
+    public void ExecuteHandler(object sender, EventArgs args)
+    {
+        SetButtonsInteractable(true);
     }
 }
