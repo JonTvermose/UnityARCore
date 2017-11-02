@@ -34,7 +34,8 @@ public class Spawner : MonoBehaviour
             for (int j = 0; j < indicator.GetLength(1); j++)
             {
                 GameObject spawnObject = null;
-                switch (indicator[i,j])
+                int indicate = indicator[i, j];
+                switch (indicate)
                 {
                     case -1: spawnObject = Player; break;
                     case 1: spawnObject = Pickup; break;
@@ -47,7 +48,7 @@ public class Spawner : MonoBehaviour
                     GameObject spawnedObject = Instantiate(spawnObject, tile.transform.position, Quaternion.identity);
                     spawnedObject.transform.position += new Vector3(0f,0.045f,0f);
                     spawnedObjects.Add(spawnedObject);
-                    if (indicator[i, j] == -1)
+                    if (indicate == -1)
                     {
                         spawnedObject.transform.LookAt(cam.transform);
                         spawnedObject.transform.rotation = Quaternion.Euler(0.0f, spawnedObject.transform.rotation.eulerAngles.y, spawnedObject.transform.rotation.z);

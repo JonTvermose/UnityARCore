@@ -66,6 +66,7 @@ namespace GoogleARCore.HelloAR
 
         public GameObject tilePrefab;
         public List<GameObject> tiles = new List<GameObject>();
+        public GameObject[,] tilesArray;
 
         public GameObject parentCubePrefab;
 
@@ -233,7 +234,7 @@ namespace GoogleARCore.HelloAR
                 Anchor anchor = Session.CreateAnchor(hit.Point, Quaternion.identity);
 
                 GameObject parentTile = Instantiate(parentCubePrefab, hit.Point, Quaternion.identity, anchor.transform);
-                GameObject[,] tilesArray = new GameObject[7, 5];
+                tilesArray = new GameObject[7, 5];
 
                 // Intanstiate an tile objects as a child of the anchor; it's transform will now benefit
                 // from the anchor's tracking.

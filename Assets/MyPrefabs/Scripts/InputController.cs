@@ -8,13 +8,13 @@ public class InputController : MonoBehaviour {
 
     public GameObject[] DirectionButtons;
     private Text[] _numberTexts;
-    private Stack<Vector3> _directions;
+    private Queue<Vector3> _directions;
 
     private GameObject _player;
 
     // Use this for initialization
     void Start () {
-        _directions = new Stack<Vector3>();
+        _directions = new Queue<Vector3>();
         _numberTexts = new Text[DirectionButtons.Length];
         for (int i = 0; i < DirectionButtons.Length; i++)
         {
@@ -42,13 +42,17 @@ public class InputController : MonoBehaviour {
         Vector3 dirVector;
         switch (direction)
         {
-            case 1: dirVector = new Vector3(1, 0, 0); break;
-            case 2: dirVector = new Vector3(0, 0, 1); break;
-            case 3: dirVector = new Vector3(-1, 0, 0); break;
-            case 4: dirVector = new Vector3(0, 0, -1); break;
+            //case 1: dirVector = new Vector3(1, 0, 0); break;
+            //case 2: dirVector = new Vector3(0, 0, 1); break;
+            //case 3: dirVector = new Vector3(-1, 0, 0); break;
+            //case 4: dirVector = new Vector3(0, 0, -1); break;
+            case 1: dirVector = new Vector3(0, 0, 1); break;
+            case 2: dirVector = new Vector3(1, 0, 0); break;
+            case 3: dirVector = new Vector3(0, 0, -1); break;
+            case 4: dirVector = new Vector3(-1, 0, 0); break;
             default: dirVector = new Vector3(0, 0, 0); break;
         }
-        _directions.Push(dirVector);
+        _directions.Enqueue(dirVector);
 
         // Update the text on button
         int amountLeft = int.Parse(_numberTexts[direction - 1].text) - 1;
