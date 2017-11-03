@@ -7,7 +7,7 @@ public class PlayerMovement : MonoBehaviour
 {
 
     public float MovementSpeed = 1.0f;
-    public int MaxTurnSpeed = 180; // Degrees / second
+    public int MaxTurnSpeed = 10; // Degrees / second
     public float DistanceScaler = 0.104f;
     
     private Queue<Vector3> _directions;
@@ -75,10 +75,12 @@ public class PlayerMovement : MonoBehaviour
             // Scale length of movement
             Vector3 playPos = transform.position;
             Vector3 newPos;
+            int obstacle;
 
             if (temp.x == 1)
             {
-                if (playerPosX < boardItemsArray.GetLength(0)-1 && boardItemsArray[playerPosX+1,playerPosZ]!=2)
+                obstacle = boardItemsArray[playerPosX + 1, playerPosZ];
+                if (playerPosX < boardItemsArray.GetLength(0)-1 && obstacle != 2 && obstacle != 4)
                 {
                     playerPosX++;
                     angleTarget = angleTarget0;
@@ -88,7 +90,8 @@ public class PlayerMovement : MonoBehaviour
             }
             else if (temp.x == -1)
             {
-                if (playerPosX > 0 && boardItemsArray[playerPosX - 1, playerPosZ] != 2)
+                obstacle = boardItemsArray[playerPosX - 1, playerPosZ];
+                if (playerPosX > 0 && obstacle != 2 && obstacle != 4)
                 {
                     playerPosX--;
                     angleTarget = angleTarget180;
@@ -98,7 +101,8 @@ public class PlayerMovement : MonoBehaviour
             }
             else if (temp.z == 1)
             {
-                if (playerPosZ < boardItemsArray.GetLength(1) - 1 && boardItemsArray[playerPosX, playerPosZ + 1] != 2)
+                obstacle = boardItemsArray[playerPosX, playerPosZ + 1];
+                if (playerPosZ < boardItemsArray.GetLength(1) - 1 && obstacle != 2 && obstacle != 4)
                 {
                     playerPosZ++;
                     angleTarget = angleTarget90;
@@ -108,7 +112,8 @@ public class PlayerMovement : MonoBehaviour
             }
             else if (temp.z == -1)
             {
-                if (playerPosZ > 0 && boardItemsArray[playerPosX, playerPosZ - 1] != 2)
+                obstacle = boardItemsArray[playerPosX, playerPosZ - 1];
+                if (playerPosZ > 0 && obstacle != 2 && obstacle != 4)
                 {
                     playerPosZ--;
                     angleTarget = angleTarget270;
