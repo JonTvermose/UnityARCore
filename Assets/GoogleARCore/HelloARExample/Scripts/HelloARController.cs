@@ -58,7 +58,14 @@ namespace GoogleARCore.HelloAR
 
         private Spawner spawnerScript;
 
-        private int[,] pickupPosArray;
+        public int[,] boardItemsArray;
+        private int levelSizeX = 18;
+        private int levelSizeZ = 14;
+
+        private int emptyPlacement = 0;
+        private int playerPlacement = -1;
+        private int pickupPlacement = 1;
+        private int wallPlacement = 2;
 
         private int elementNumber = 0;
 
@@ -102,7 +109,7 @@ namespace GoogleARCore.HelloAR
         {
             spawnerScript = gameObject.GetComponent<Spawner>();
             makePickupArray();
-        }
+        }       
 
         /// <summary>
         /// The Unity Update() method.
@@ -187,22 +194,39 @@ namespace GoogleARCore.HelloAR
 
         private void makePickupArray()
         {
-            pickupPosArray = new int[7, 5];
-            for (int i = 0; i < pickupPosArray.GetLength(0); i++)
+            boardItemsArray = new int[levelSizeX, levelSizeZ];
+
+            for (int i = 0; i < boardItemsArray.GetLength(0); i++)
             {
-                for (int j = 0; j < pickupPosArray.GetLength(1); j++)
+                for (int j = 0; j < boardItemsArray.GetLength(1); j++)
                 {
-                    if (i % 2 == 0 && j % 2 == 0)
+                    if ((i==1 && j==7)||(i==1 && j==10)||(i==5 && j==2)||(i==8 && j==13)||(i==11 && j==8)||(i==13 && j==2)||(i==14 && j==9))
                     {
-                        pickupPosArray[i, j] = 1;
+                        boardItemsArray[i, j] = pickupPlacement;
+                    }
+                    else if (i == 3 && j > 5 && j < 11)
+                    {
+                        boardItemsArray[i, j] = wallPlacement;
+                    }
+                    else if (i == 6 && j < 5)
+                    {
+                        boardItemsArray[i, j] = wallPlacement;
+                    }
+                    else if (i > 3 && i < 6 && j == 4)
+                    {
+                        boardItemsArray[i, j] = wallPlacement;
+                    }
+                    else if (i == 12 && j > 5 && j < 12)
+                    {
+                        boardItemsArray[i, j] = wallPlacement;
                     }
                     else
                     {
-                        pickupPosArray[i, j] = 0;
+                        boardItemsArray[i, j] = emptyPlacement;
                     }
                 }
             }
-            pickupPosArray[0, 0] = -1;
+            boardItemsArray[0, 0] = playerPlacement;
         }
 
         private void PlaceFireTouch(Touch touch)
@@ -234,24 +258,27 @@ namespace GoogleARCore.HelloAR
                 Anchor anchor = Session.CreateAnchor(hit.Point, Quaternion.identity);
 
                 GameObject parentTile = Instantiate(parentCubePrefab, hit.Point, Quaternion.identity, anchor.transform);
-                tilesArray = new GameObject[7, 5];
+                tilesArray = new GameObject[18, 14];
 
                 // Intanstiate an tile objects as a child of the anchor; it's transform will now benefit
                 // from the anchor's tracking.
-                for (int i = 0; i < 7; i++)
+                for (int i = 0; i < levelSizeX; i++)
                 {
-                    for (int j = 0; j < 5; j++)
+                    for (int j = 0; j < levelSizeZ; j++)
                     {
-                        Vector3 tilePos = hit.Point + new Vector3(0 + i * 0.104f, 0.1f, 0 + j * 0.104f);
-                        GameObject tile = Instantiate(tilePrefab, tilePos, Quaternion.identity, parentTile.transform);
-                        tile.transform.parent = parentTile.transform;
-                        tiles.Add(tile);
-                        tilesArray[i, j] = tile;
+                        if (boardItemsArray[i,j]!=2)
+                        {
+                            Vector3 tilePos = hit.Point + new Vector3(0 + i * 0.104f, 0.1f, 0 + j * 0.104f);
+                            GameObject tile = Instantiate(tilePrefab, tilePos, Quaternion.identity, parentTile.transform);
+                            tile.transform.parent = parentTile.transform;
+                            tiles.Add(tile);
+                            tilesArray[i, j] = tile;
+                        }
                     }
                 }
                 parentTile.transform.LookAt(m_firstPersonCamera.transform);
                 parentTile.transform.rotation = Quaternion.Euler(0.0f, parentTile.transform.rotation.eulerAngles.y + 180, parentTile.transform.rotation.z);
-                spawnerScript.SpawnAll(pickupPosArray,tilesArray,m_firstPersonCamera);
+                spawnerScript.SpawnAll(boardItemsArray, tilesArray,m_firstPersonCamera);
             }
         }
 

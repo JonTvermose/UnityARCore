@@ -28,6 +28,7 @@ public class PlayerMovement : MonoBehaviour
     private HelloARController arCon;
     private int playerPosX = 0;
     private int playerPosZ = 0;
+    private int[,] boardItemsArray;
 
     // Use this for initialization
     void Start () {
@@ -39,6 +40,7 @@ public class PlayerMovement : MonoBehaviour
         angleTarget270 = Quaternion.Euler(0.0f, transform.rotation.eulerAngles.y + 90, transform.rotation.z);
         GameObject sceneController = GameObject.Find("SceneController");
         arCon = sceneController.GetComponent<HelloARController>();
+        boardItemsArray = arCon.boardItemsArray;
     }
 	
 	// Update is called once per frame
@@ -54,43 +56,43 @@ public class PlayerMovement : MonoBehaviour
 
             if (temp.x == 1)
             {
-                if (playerPosX < 6)
+                if (playerPosX < boardItemsArray.GetLength(0)-1 && boardItemsArray[playerPosX+1,playerPosZ]!=2)
                 {
                     playerPosX++;
+                    angleTarget = angleTarget0;
+                    newPos = arCon.tilesArray[playerPosX, playerPosZ].transform.position;
+                    _currentTarget = new Vector3(newPos.x, transform.position.y,newPos.z);
                 }
-                angleTarget = angleTarget0;
-                newPos = arCon.tilesArray[playerPosX, playerPosZ].transform.position;
-                _currentTarget = new Vector3(newPos.x, transform.position.y,newPos.z);
             }
             else if (temp.x == -1)
             {
-                if (playerPosX > 0)
+                if (playerPosX > 0 && boardItemsArray[playerPosX - 1, playerPosZ] != 2)
                 {
                     playerPosX--;
+                    angleTarget = angleTarget180;
+                    newPos = arCon.tilesArray[playerPosX, playerPosZ].transform.position;
+                    _currentTarget = new Vector3(newPos.x, transform.position.y, newPos.z);
                 }
-                angleTarget = angleTarget180;
-                newPos = arCon.tilesArray[playerPosX, playerPosZ].transform.position;
-                _currentTarget = new Vector3(newPos.x, transform.position.y, newPos.z);
             }
             else if (temp.z == 1)
             {
-                if (playerPosZ < 6)
+                if (playerPosZ < boardItemsArray.GetLength(1) - 1 && boardItemsArray[playerPosX, playerPosZ + 1] != 2)
                 {
                     playerPosZ++;
+                    angleTarget = angleTarget90;
+                    newPos = arCon.tilesArray[playerPosX, playerPosZ].transform.position;
+                    _currentTarget = new Vector3(newPos.x, transform.position.y, newPos.z);
                 }
-                angleTarget = angleTarget90;
-                newPos = arCon.tilesArray[playerPosX, playerPosZ].transform.position;
-                _currentTarget = new Vector3(newPos.x, transform.position.y, newPos.z);
             }
             else if (temp.z == -1)
             {
-                if (playerPosZ>0)
+                if (playerPosZ > 0 && boardItemsArray[playerPosX, playerPosZ - 1] != 2)
                 {
                     playerPosZ--;
+                    angleTarget = angleTarget270;
+                    newPos = arCon.tilesArray[playerPosX, playerPosZ].transform.position;
+                    _currentTarget = new Vector3(newPos.x, transform.position.y, newPos.z);
                 }
-                angleTarget = angleTarget270;
-                newPos = arCon.tilesArray[playerPosX, playerPosZ].transform.position;
-                _currentTarget = new Vector3(newPos.x, transform.position.y, newPos.z);
             }
 
             

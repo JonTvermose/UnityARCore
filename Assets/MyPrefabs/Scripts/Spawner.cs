@@ -39,7 +39,7 @@ public class Spawner : MonoBehaviour
                 {
                     case -1: spawnObject = Player; break;
                     case 1: spawnObject = Pickup; break;
-                    case 2: spawnObject = Obstacles[r.Next(Obstacles.Length)]; break;
+                    case 3: spawnObject = Obstacles[r.Next(Obstacles.Length)]; break;
                     default: break;
                 }
                 if (spawnObject != null)
