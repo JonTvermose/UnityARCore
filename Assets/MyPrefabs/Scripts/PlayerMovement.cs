@@ -30,9 +30,15 @@ public class PlayerMovement : MonoBehaviour
     private int playerPosZ = 0;
     private int[,] boardItemsArray;
 
+    private int goalX;
+    private int goalZ;
+
+    private GameObject _treasure;
+
     // Use this for initialization
-    void Start () {
-	    _currentTarget = transform.position;
+    void Start ()
+    {
+        _currentTarget = transform.position;
         _directions = new Queue<Vector3>();
         angleTarget0 = Quaternion.Euler(0.0f, transform.rotation.eulerAngles.y, transform.rotation.z);
         angleTarget90 = Quaternion.Euler(0.0f, transform.rotation.eulerAngles.y -90, transform.rotation.z);
@@ -41,12 +47,28 @@ public class PlayerMovement : MonoBehaviour
         GameObject sceneController = GameObject.Find("SceneController");
         arCon = sceneController.GetComponent<HelloARController>();
         boardItemsArray = arCon.boardItemsArray;
+
+        for (int x = 0; x < boardItemsArray.GetLength(0); x++)
+        {
+            for (int z = 0; z < boardItemsArray.GetLength(1); z++)
+            {
+                if (boardItemsArray[x, z] == 3)
+                {
+                    goalX = x;
+                    goalZ = z;
+                }
+            }
+        }
+        _treasure = GameObject.FindGameObjectWithTag("Treasure");
     }
-	
-	// Update is called once per frame
-	void Update () {
+
+    // Update is called once per frame
+    void Update () {
+        if (GameManager.GameManager_instance.GameEnded)
+            return;
+
         // Dont pop if we have nothing to pop, or are in the process of changing position or rotation
-	    if (IsExecuting && !_isMoving && !_isTurning)
+        if (IsExecuting && !_isMoving && !_isTurning)
 	    {
 	        // pop - get next target positions
 	        var temp = _directions.Dequeue();
@@ -131,11 +153,11 @@ public class PlayerMovement : MonoBehaviour
 	    }
         if (_isMoving)
 	    {
-            GameObject treasure = GameObject.FindGameObjectWithTag("Treasure");
-
-            if (_currentTarget == treasure.transform.position)
+            if (playerPosX == goalX && playerPosZ == goalZ)
             {
-                treasure.GetComponent<TreasureScript>().TreasureFound();
+                _treasure.GetComponent<GoalTreasure>().TreasureFound();
+                _isMoving = false;
+                return;
             }
             // Animate moving towards _currentTarget
 	        gameObject.transform.position = Vector3.Lerp(gameObject.transform.position, _currentTarget, MovementSpeed * Time.deltaTime);
@@ -162,4 +184,3 @@ public class PlayerMovement : MonoBehaviour
         IsExecuting = true;
     }
 }
-

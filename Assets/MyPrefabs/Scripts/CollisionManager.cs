@@ -46,6 +46,7 @@ public class CollisionManager : MonoBehaviour
 
             // start the timer countdown for gameobject deactivation
             isPickedUp = true;
+            GameManager.GameManager_instance.PickupTrigger();
         }
     }
 }
