@@ -19,7 +19,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4627718048826432}
-  - component: {fileID: 114961287870260478}
+  - component: {fileID: 114044916246502768}
   m_Layer: 0
   m_Name: Treasure_Chest 1
   m_TagString: Treasure
@@ -215,7 +215,7 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1985085388817146}
   m_Mesh: {fileID: 4300002, guid: 6f43b7231d70da048b9effba0fac5c8d, type: 3}
---- !u!114 &114961287870260478
+--- !u!114 &114044916246502768
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -223,7 +223,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1130837182108652}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 75e98e95958913e4d89db88357394963, type: 3}
+  m_Script: {fileID: 11500000, guid: 24d6ccbfcc7dbd443990aeb0cfd8846a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!198 &198813545445009242
