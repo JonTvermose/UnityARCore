@@ -12,6 +12,8 @@ public class Spawner : MonoBehaviour
 
     public GameObject Player;
 
+    public GameObject Goal;
+
     private List<GameObject> spawnedObjects = new List<GameObject>();
 
     void Awake()
@@ -39,7 +41,8 @@ public class Spawner : MonoBehaviour
                 {
                     case -1: spawnObject = Player; break;
                     case 1: spawnObject = Pickup; break;
-                    case 3: spawnObject = Obstacles[r.Next(Obstacles.Length)]; break;
+                    case 3: spawnObject = Goal; break;
+                    //case 3: spawnObject = Obstacles[r.Next(Obstacles.Length)]; break;
                     default: break;
                 }
                 if (spawnObject != null)

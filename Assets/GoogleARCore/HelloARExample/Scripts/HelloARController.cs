@@ -66,6 +66,7 @@ namespace GoogleARCore.HelloAR
         private int playerPlacement = -1;
         private int pickupPlacement = 1;
         private int wallPlacement = 2;
+        private int goalPlacemnet = 3;
 
         private int elementNumber = 0;
 
@@ -227,6 +228,7 @@ namespace GoogleARCore.HelloAR
                 }
             }
             boardItemsArray[0, 0] = playerPlacement;
+            boardItemsArray[1, 1] = goalPlacemnet;
         }
 
         private void PlaceFireTouch(Touch touch)

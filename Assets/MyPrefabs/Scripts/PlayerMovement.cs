@@ -131,7 +131,12 @@ public class PlayerMovement : MonoBehaviour
 	    }
         if (_isMoving)
 	    {
-            
+            GameObject treasure = GameObject.FindGameObjectWithTag("Treasure");
+
+            if (_currentTarget == treasure.transform.position)
+            {
+                treasure.GetComponent<TreasureScript>().TreasureFound();
+            }
             // Animate moving towards _currentTarget
 	        gameObject.transform.position = Vector3.Lerp(gameObject.transform.position, _currentTarget, MovementSpeed * Time.deltaTime);
 
