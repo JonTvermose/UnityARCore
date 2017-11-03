@@ -36,8 +36,9 @@ public class PlayerMovement : MonoBehaviour
     private GameObject _treasure;
 
     // Use this for initialization
-    void Start () {
-	    _currentTarget = transform.position;
+    void Start ()
+    {
+        _currentTarget = transform.position;
         _directions = new Queue<Vector3>();
         angleTarget0 = Quaternion.Euler(0.0f, transform.rotation.eulerAngles.y, transform.rotation.z);
         angleTarget90 = Quaternion.Euler(0.0f, transform.rotation.eulerAngles.y -90, transform.rotation.z);
@@ -63,8 +64,11 @@ public class PlayerMovement : MonoBehaviour
 
     // Update is called once per frame
     void Update () {
+        if (GameManager.GameManager_instance.GameEnded)
+            return;
+
         // Dont pop if we have nothing to pop, or are in the process of changing position or rotation
-	    if (IsExecuting && !_isMoving && !_isTurning)
+        if (IsExecuting && !_isMoving && !_isTurning)
 	    {
 	        // pop - get next target positions
 	        var temp = _directions.Dequeue();

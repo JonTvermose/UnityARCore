@@ -7,6 +7,7 @@ public class GoalTreasure : MonoBehaviour {
     private GameObject _treasureTop;
     private ParticleSystem _treasureParticleSystem;
     private bool _isRotating;
+    private bool _isInitiatet;
     private float _rotatedDegress;
 
     // Use this for initialization
@@ -40,11 +41,14 @@ public class GoalTreasure : MonoBehaviour {
 
     public bool IsPlaying()
     {
+        if (!_isInitiatet)
+            return false;
         return _isRotating && _treasureParticleSystem.isPlaying;
     }
 
     public void TreasureFound()
     {
+        _isInitiatet = true;
         _isRotating = true;
     }
 }

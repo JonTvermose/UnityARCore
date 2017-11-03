@@ -38,6 +38,8 @@ public class InputController : MonoBehaviour {
             if (_player.GetComponent<PlayerMovement>().IsExecuting)
                 return;
         }
+        if (GameManager.GameManager_instance.GameEnded)
+            return;
 
         // Add direction vector
         Vector3 dirVector;
