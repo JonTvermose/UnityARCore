@@ -66,7 +66,8 @@ namespace GoogleARCore.HelloAR
         private int playerPlacement = -1;
         private int pickupPlacement = 1;
         private int wallPlacement = 2;
-        private int goalPlacemnet = 3;
+        private int goalPlacement = 3;
+        private int obstaclePlacement = 4;
 
         private int elementNumber = 0;
 
@@ -205,6 +206,10 @@ namespace GoogleARCore.HelloAR
                     {
                         boardItemsArray[i, j] = pickupPlacement;
                     }
+                    else if ((i == 2 && j == 3) || (i == 6 && j == 8) || (i == 11 && j == 3) || (i == 14 && j == 13) || (i == 16 && j == 6))
+                    {
+                        boardItemsArray[i, j] = obstaclePlacement;
+                    }
                     else if (i == 3 && j > 5 && j < 11)
                     {
                         boardItemsArray[i, j] = wallPlacement;
@@ -228,7 +233,7 @@ namespace GoogleARCore.HelloAR
                 }
             }
             boardItemsArray[0, 0] = playerPlacement;
-            boardItemsArray[1, 1] = goalPlacemnet;
+            boardItemsArray[levelSizeX-1, levelSizeZ-1] = goalPlacement;
         }
 
         private void PlaceFireTouch(Touch touch)
