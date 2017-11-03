@@ -8,6 +8,7 @@ TagManager:
   - GreenCube
   - SoundManager
   - UIBar
+  - TreasureTop
   layers:
   - Default
   - TransparentFX
