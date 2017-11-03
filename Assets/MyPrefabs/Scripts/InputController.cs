@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -42,10 +43,6 @@ public class InputController : MonoBehaviour {
         Vector3 dirVector;
         switch (direction)
         {
-            //case 1: dirVector = new Vector3(1, 0, 0); break;
-            //case 2: dirVector = new Vector3(0, 0, 1); break;
-            //case 3: dirVector = new Vector3(-1, 0, 0); break;
-            //case 4: dirVector = new Vector3(0, 0, -1); break;
             case 1: dirVector = new Vector3(0, 0, 1); break;
             case 2: dirVector = new Vector3(1, 0, 0); break;
             case 3: dirVector = new Vector3(0, 0, -1); break;
@@ -55,18 +52,27 @@ public class InputController : MonoBehaviour {
         _directions.Enqueue(dirVector);
 
         // Update the text on button
-        int amountLeft = int.Parse(_numberTexts[direction - 1].text) - 1;
+        int amountLeft = int.Parse(_numberTexts[direction - 1].text) + 1;
+        _numberTexts[direction - 1].text = amountLeft.ToString();
+    }
 
-        // Deactivate button if there no more moves
-        if (amountLeft <= 0)
+    /// <summary>
+    /// Retrieve the total number of moves made by the player, since the last "ResetMoves()" has been called.
+    /// </summary>
+    public int TotalMoves()
+    {
+        int total = _numberTexts.Sum(x => int.Parse(x.text));
+        return total;
+    }
+
+    /// <summary>
+    /// Reset the number of moves the player has made.
+    /// </summary>
+    public void ResetMoves()
+    {
+        foreach (var numberText in _numberTexts)
         {
-            DirectionButtons[direction - 1].GetComponent<Button>().interactable = false;
-            _numberTexts[direction - 1].text = "0";
-        }
-        else
-        {
-            // Reduce the amount with 1
-            _numberTexts[direction - 1].text = amountLeft.ToString();
+            numberText.text = "0";
         }
     }
 
