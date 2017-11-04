@@ -909,8 +909,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Obstacles:
   - {fileID: 1405038130519688, guid: 259bb3129dbf0d647ad526c834e1928c, type: 2}
-  Pickup: {fileID: 1921171960111712, guid: a2cae48e51a76af49b2841d338e9a632, type: 2}
-  Player: {fileID: 1116444530569656, guid: a0ef4d6c33230cd418cfe69324e57fec, type: 2}
+  Pickup: {fileID: 1380992986806296, guid: a2cae48e51a76af49b2841d338e9a632, type: 2}
+  Player: {fileID: 1379736464463658, guid: a0ef4d6c33230cd418cfe69324e57fec, type: 2}
   Goal: {fileID: 1130837182108652, guid: b3a1a51382e748047b8f404af5b15ed8, type: 2}
   Obstacle: {fileID: 1865961234907992, guid: 62ffe9938468d6f4184fe7e4de25f396, type: 2}
 --- !u!114 &477643400

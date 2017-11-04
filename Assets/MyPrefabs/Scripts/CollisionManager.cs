@@ -5,7 +5,7 @@ using UnityEngine;
 public class CollisionManager : MonoBehaviour
 {
 
-    public GameObject ParticleSystem;
+    public ParticleSystem ParticleSystem;
 
     public AudioClip AudioClip;
 
@@ -42,7 +42,8 @@ public class CollisionManager : MonoBehaviour
             SoundManager.instance.PlayAudioClip(AudioClip);
 
             // Play animation
-            Instantiate(ParticleSystem, transform.position, transform.rotation);
+            ParticleSystem.Play();
+            //Instantiate(ParticleSystem, transform.position, transform.rotation);
 
             // start the timer countdown for gameobject deactivation
             isPickedUp = true;
