@@ -10,6 +10,9 @@ public class InputController : MonoBehaviour {
     public GameObject[] DirectionButtons;
     private Text[] _numberTexts;
     private Queue<Vector3> _directions;
+    private int _repeats;
+    public GameObject RepeatButton;
+    private Text _repeatText;
 
     private GameObject _player;
 
@@ -17,10 +20,12 @@ public class InputController : MonoBehaviour {
     void Start () {
         _directions = new Queue<Vector3>();
         _numberTexts = new Text[DirectionButtons.Length];
+        _repeats = 0;
         for (int i = 0; i < DirectionButtons.Length; i++)
         {
             _numberTexts[i] = DirectionButtons[i].GetComponentInChildren<Text>();
         }
+        _repeatText = RepeatButton.GetComponentInChildren<Text>();
     }
 
     // Update is called once per frame
@@ -30,6 +35,12 @@ public class InputController : MonoBehaviour {
 	        _player = GameObject.FindGameObjectWithTag("Player");
         }
 	}
+
+    public void RepeatMoves()
+    {
+        _repeats++;
+        // TODO
+    }
 
     public void AddMove(int direction)
     {
@@ -84,9 +95,25 @@ public class InputController : MonoBehaviour {
         if (temp != null)
         {
             temp.DoneExecutingHandler += ExecuteHandler;
+
+            if (_repeats > 0)
+            {
+                // Copy queue
+                var tempQueue = new Queue<Vector3>(new Queue<Vector3>(_directions));
+                // Repeat instructions
+                for (int i = 0; i < _repeats; i++)
+                {
+                    foreach (var dir in tempQueue)
+                    {
+                        _directions.Enqueue(dir);
+                    }
+                }
+            }
+
             temp.MovePlayer(_directions);
             // Clear stack as the stack will be copied in PlayerMovement
             _directions.Clear();
+            _repeats = 0;
         }
         SetButtonsInteractable(false);
     }
