@@ -194,6 +194,81 @@ namespace GoogleARCore.HelloAR
             return false;
         }
 
+        private bool IsObstacle(int i, int j)
+        {
+            return (
+                (i == 0 && j == 5) || 
+                (i == 1 && j == 2) ||
+                (i == 1 && j == 4) ||
+                (i == 2 && j == 1) ||
+                (i == 2 && j == 9) ||
+                (i == 2 && j == 11) ||
+                (i == 3 && j == 4) || 
+                (i == 3 && j == 6) ||
+                (i == 4 && j == 2) ||
+                (i == 4 && j == 3) ||
+                (i == 4 && j == 9) ||
+                (i == 4 && j == 11) ||
+                (i == 5 && j == 3) ||
+                (i == 6 && j == 8) ||
+                (i == 6 && j == 9) ||
+                (i == 7 && j == 3) ||
+                (i == 7 && j == 11) ||
+                (i == 8 && j == 2) ||
+                (i == 8 && j == 6) ||
+                (i == 8 && j == 7) ||
+                (i == 8 && j == 8) ||
+                (i == 8 && j == 11) ||
+                (i == 10 && j == 1) ||
+                (i == 10 && j == 5) ||
+                (i == 10 && j == 7) ||
+                (i == 11 && j == 1) ||
+                (i == 11 && j == 4) ||
+                (i == 11 && j == 5) ||
+                (i == 12 && j == 1) ||
+                (i == 13 && j == 6) ||
+                (i == 14 && j == 6) ||
+                (i == 14 && j == 7) ||
+                (i == 14 && j == 9) ||
+                (i == 15 && j == 9)
+                );
+        }
+
+        private bool IsWall(int i, int j)
+        {
+            return (
+                (i == 1 && j == 6) ||
+                (i == 1 && j == 7) ||
+                (i == 2 && j == 6) ||
+                (i == 2 && j == 7) ||
+                (i == 6 && j == 4) ||
+                (i == 6 && j == 5) ||
+                (i == 7 && j == 4) ||
+                (i == 7 && j == 5) ||
+                (i == 8 && j == 4) ||
+                (i == 8 && j == 5) ||
+                (i == 11 && j == 7) ||
+                (i == 11 && j == 8) ||
+                (i == 11 && j == 9) ||
+                (i == 12 && j == 7) ||
+                (i == 12 && j == 8) ||
+                (i == 12 && j == 9) ||
+                (i == 13 && j == 7) ||
+                (i == 13 && j == 8) ||
+                (i == 13 && j == 9)
+                );
+        }
+
+        private bool IsPickup(int i, int j)
+        {
+            return (
+                (i == 0 && j == 12) || 
+                (i == 6 && j == 6) || 
+                (i == 10 && j == 2) || 
+                (i == 10 && j == 8)
+                );
+        }
+
         private void makePickupArray()
         {
             boardItemsArray = new int[levelSizeX, levelSizeZ];
@@ -202,27 +277,15 @@ namespace GoogleARCore.HelloAR
             {
                 for (int j = 0; j < boardItemsArray.GetLength(1); j++)
                 {
-                    if ((i==1 && j==7)||(i==1 && j==10)||(i==5 && j==2)||(i==8 && j==13)||(i==11 && j==8)||(i==13 && j==2)||(i==14 && j==9))
+                    if (IsPickup(i,j))
                     {
                         boardItemsArray[i, j] = pickupPlacement;
                     }
-                    else if ((i == 2 && j == 3) || (i == 6 && j == 8) || (i == 11 && j == 3) || (i == 14 && j == 13) || (i == 16 && j == 6))
+                    else if (IsObstacle(i,j))                        
                     {
                         boardItemsArray[i, j] = obstaclePlacement;
                     }
-                    else if (i == 3 && j > 5 && j < 11)
-                    {
-                        boardItemsArray[i, j] = wallPlacement;
-                    }
-                    else if (i == 6 && j < 5)
-                    {
-                        boardItemsArray[i, j] = wallPlacement;
-                    }
-                    else if (i > 3 && i < 6 && j == 4)
-                    {
-                        boardItemsArray[i, j] = wallPlacement;
-                    }
-                    else if (i == 12 && j > 5 && j < 12)
+                    else if (IsWall(i,j))
                     {
                         boardItemsArray[i, j] = wallPlacement;
                     }
@@ -233,7 +296,7 @@ namespace GoogleARCore.HelloAR
                 }
             }
             boardItemsArray[0, 0] = playerPlacement;
-            boardItemsArray[levelSizeX-1, levelSizeZ-1] = goalPlacement;
+            boardItemsArray[16, 11] = goalPlacement;
         }
 
         private void PlaceFireTouch(Touch touch)
@@ -265,7 +328,7 @@ namespace GoogleARCore.HelloAR
                 Anchor anchor = Session.CreateAnchor(hit.Point, Quaternion.identity);
 
                 GameObject parentTile = Instantiate(parentCubePrefab, hit.Point, Quaternion.identity, anchor.transform);
-                tilesArray = new GameObject[18, 14];
+                tilesArray = new GameObject[levelSizeX, levelSizeZ];
 
                 // Intanstiate an tile objects as a child of the anchor; it's transform will now benefit
                 // from the anchor's tracking.
@@ -275,7 +338,7 @@ namespace GoogleARCore.HelloAR
                     {
                         if (boardItemsArray[i,j]!=2)
                         {
-                            Vector3 tilePos = hit.Point + new Vector3(0 + i * 0.104f, 0.1f, 0 + j * 0.104f);
+                            Vector3 tilePos = hit.Point + new Vector3(0 + i * 0.104f, 0f, 0 + j * 0.104f);
                             GameObject tile = Instantiate(tilePrefab, tilePos, Quaternion.identity, parentTile.transform);
                             tile.transform.parent = parentTile.transform;
                             tiles.Add(tile);
@@ -284,7 +347,7 @@ namespace GoogleARCore.HelloAR
                     }
                 }
                 parentTile.transform.LookAt(m_firstPersonCamera.transform);
-                parentTile.transform.rotation = Quaternion.Euler(0.0f, parentTile.transform.rotation.eulerAngles.y + 180, parentTile.transform.rotation.z);
+                parentTile.transform.rotation = Quaternion.Euler(0.0f, parentTile.transform.rotation.eulerAngles.y + 180, 0f);
                 spawnerScript.SpawnAll(boardItemsArray, tilesArray,m_firstPersonCamera);
             }
         }

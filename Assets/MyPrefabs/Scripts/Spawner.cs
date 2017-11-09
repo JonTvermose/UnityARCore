@@ -54,15 +54,23 @@ public class Spawner : MonoBehaviour
                     GameObject spawnedObject = Instantiate(spawnObject, tile.transform.position, Quaternion.identity);
                     spawnedObject.transform.position += new Vector3(0f,0.045f,0f);
                     spawnedObjects.Add(spawnedObject);
-                    if (indicate == -1)
+                    if (indicate == 1)
+                    {
+                        spawnedObject.transform.position -= new Vector3(0f, 0.025f, 0f);
+                        spawnedObject.transform.LookAt(cam.transform);
+                        spawnedObject.transform.rotation = Quaternion.Euler(0.0f, spawnedObject.transform.rotation.eulerAngles.y-90, spawnedObject.transform.rotation.z);
+
+                    } else if (indicate == -1)
                     {
                         spawnedObject.transform.position -= new Vector3(0f, 0.025f, 0f);
                         spawnedObject.transform.LookAt(cam.transform);
                         spawnedObject.transform.rotation = Quaternion.Euler(0.0f, spawnedObject.transform.rotation.eulerAngles.y, spawnedObject.transform.rotation.z);
                     } else if (indicate == 4)
                     {
+                        //spawnedObject.transform.position -= new Vector3(0f, 0.035f, 0f);
+                        //spawnedObject.transform.LookAt(cam.transform);
                         spawnedObject.transform.position -= new Vector3(0f, 0.035f, 0f);
-                        spawnedObject.transform.LookAt(cam.transform);
+                        spawnedObject.transform.rotation = Quaternion.Euler(0.0f, spawnedObject.transform.rotation.eulerAngles.y, spawnedObject.transform.rotation.z);
                     }
                 }
             }
