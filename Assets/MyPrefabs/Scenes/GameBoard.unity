@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657844, g: 0.49641222, b: 0.57481694, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -641,7 +641,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 208136254}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 334.5, y: 89, z: 0}
+  m_LocalPosition: {x: 498, y: -22.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1399565707}
@@ -679,7 +679,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 281536520}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -334.5, y: 0, z: 0}
+  m_LocalPosition: {x: -498, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 565989116}
@@ -909,10 +909,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Obstacles:
   - {fileID: 1405038130519688, guid: 259bb3129dbf0d647ad526c834e1928c, type: 2}
-  Pickup: {fileID: 1380992986806296, guid: a2cae48e51a76af49b2841d338e9a632, type: 2}
+  Pickup: {fileID: 1833585556034566, guid: 72014ab8ce024584abfefa56e703920c, type: 2}
   Player: {fileID: 1379736464463658, guid: a0ef4d6c33230cd418cfe69324e57fec, type: 2}
   Goal: {fileID: 1130837182108652, guid: b3a1a51382e748047b8f404af5b15ed8, type: 2}
-  Obstacle: {fileID: 1865961234907992, guid: 62ffe9938468d6f4184fe7e4de25f396, type: 2}
+  Obstacle: {fileID: 1741913415448902, guid: c4b02c29157fe0847b4a09734db58cc7, type: 2}
 --- !u!114 &477643400
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1019,7 +1019,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 565989115}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 161, z: 0}
+  m_LocalPosition: {x: 0, y: 272.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 281536521}
@@ -1489,7 +1489,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 991248636}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -211, z: 0}
+  m_LocalPosition: {x: 0, y: -322.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 193811519}
@@ -1915,7 +1915,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1547653517}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 434.5, y: 211, z: 0}
+  m_LocalPosition: {x: 598, y: 322.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 565989116}
@@ -2103,7 +2103,7 @@ Prefab:
         type: 2}
       propertyPath: tilePrefab
       value: 
-      objectReference: {fileID: 1247827401852982, guid: 631b94849a87a7341baee39fe7fca689,
+      objectReference: {fileID: 1711079472399050, guid: cb0010f42ace965408e437bdbd7745ee,
         type: 2}
     - target: {fileID: 1493861335851568, guid: 0aafa3c252b92fb4881345d5d8c5075a, type: 2}
       propertyPath: m_Name
