@@ -347,7 +347,7 @@ namespace GoogleARCore.HelloAR
                     }
                 }
                 parentTile.transform.LookAt(m_firstPersonCamera.transform);
-                parentTile.transform.rotation = Quaternion.Euler(0.0f, parentTile.transform.rotation.eulerAngles.y + 180, 0f);
+                parentTile.transform.rotation = Quaternion.Euler(0.0f, parentTile.transform.rotation.eulerAngles.y + 180, parentTile.transform.rotation.z);
                 spawnerScript.SpawnAll(boardItemsArray, tilesArray,m_firstPersonCamera);
             }
         }
