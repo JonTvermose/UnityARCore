@@ -127,10 +127,9 @@ namespace GoogleARCore.HelloAR
                 Screen.sleepTimeout = LOST_TRACKING_SLEEP_TIMEOUT;
                 return;
             }
-
             Screen.sleepTimeout = SleepTimeout.NeverSleep;
             Frame.GetNewPlanes(ref m_newPlanes);
-
+           
             // Iterate over planes found in this frame and instantiate corresponding GameObjects to visualize them.
             for (int i = 0; i < m_newPlanes.Count; i++)
             {
@@ -302,7 +301,7 @@ namespace GoogleARCore.HelloAR
         private void PlaceFireTouch(Touch touch)
         {
             TrackableHitFlag raycastFilter = TrackableHitFlag.PlaneWithinBounds | TrackableHitFlag.PlaneWithinPolygon;
-
+            
             TrackableHit hit;
             if (Session.Raycast(m_firstPersonCamera.ScreenPointToRay(touch.position), raycastFilter, out hit))
             {

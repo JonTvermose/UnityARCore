@@ -39,7 +39,7 @@ public class InputController : MonoBehaviour {
     public void RepeatMoves()
     {
         _repeats++;
-        // TODO
+        _repeatText.text = "Gentag sekvens (" + _repeats + ")";
     }
 
     public void AddMove(int direction)
