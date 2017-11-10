@@ -56,6 +56,8 @@ namespace GoogleARCore.HelloAR
         /// </summary>
         public GameObject m_searchingForPlaneUI;
 
+        public List<GameObject> planes = new List<GameObject>();
+
         private Spawner spawnerScript;
 
         public int[,] boardItemsArray;
@@ -141,9 +143,11 @@ namespace GoogleARCore.HelloAR
                 planeObject.GetComponent<TrackedPlaneVisualizer>().SetTrackedPlane(m_newPlanes[i]);
 
                 // Apply a random color and grid rotation.
-                planeObject.GetComponent<Renderer>().material.SetColor("_GridColor", m_planeColors[Random.Range(0,
-                    m_planeColors.Length - 1)]);
+                //planeObject.GetComponent<Renderer>().material.SetColor("_GridColor", m_planeColors[Random.Range(0,
+                //    m_planeColors.Length - 1)]);
+                planeObject.GetComponent<Renderer>().material.SetColor("_GridColor", Color.green);
                 planeObject.GetComponent<Renderer>().material.SetFloat("_UvRotation", Random.Range(0.0f, 360.0f));
+                planes.Add(planeObject);
             }
 
             // Disable the snackbar UI when no planes are valid.
@@ -171,9 +175,17 @@ namespace GoogleARCore.HelloAR
             {
                 //Creates array of pickups on the gameboard
                 makePickupArray();
+                foreach (GameObject plane in planes)
+                {
+                    plane.SetActive(false);
+                }
                 PlaceElement(touch);
             } else
             {
+                foreach (GameObject plane in planes)
+                {
+                    plane.SetActive(true);
+                }
                 foreach (var tile in tiles)
                 {
                     Destroy(tile);
