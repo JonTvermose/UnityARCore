@@ -5,17 +5,18 @@ using UnityEngine;
 public class CollisionManager : MonoBehaviour
 {
 
-    public ParticleSystem ParticleSystem;
+    private ParticleSystem _particleSystem;
 
     public AudioClip AudioClip;
 
-    public float PickupDurationSeconds = 2; // seconds
+    public float PickupDurationSeconds = 2.0f; // seconds
 
     private bool isPickedUp = false;
 
     // Use this for initialization
     void Start ()
     {
+        _particleSystem = gameObject.GetComponentInChildren<ParticleSystem>();
     }
 
     // Update is called once per frame
@@ -41,9 +42,11 @@ public class CollisionManager : MonoBehaviour
             // Play a sound
             SoundManager.instance.PlayAudioClip(AudioClip);
 
-            // Play animation
-            ParticleSystem.Play();
-            //Instantiate(ParticleSystem, transform.position, transform.rotation);
+            if (_particleSystem != null)
+            {
+                // Play animation
+                _particleSystem.Play();
+            }
 
             // start the timer countdown for gameobject deactivation
             isPickedUp = true;

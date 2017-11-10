@@ -33,11 +33,14 @@ public class GameManager : MonoBehaviour
 	
 	// Update is called once per frame
 	void Update () {
-	    if (_goalTreasure.IsPlaying())
+	    if (_goalTreasure != null)
 	    {
-	        // Game has finished
-            EndGame();
-	    }
+	        if (_goalTreasure.IsPlaying())
+	        {
+	            // Game has finished
+	            EndGame();
+	        }
+        }
 	}
 
     public void EndGame()
