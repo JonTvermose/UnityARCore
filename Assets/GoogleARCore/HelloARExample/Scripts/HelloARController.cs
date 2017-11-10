@@ -109,10 +109,13 @@ namespace GoogleARCore.HelloAR
             new Color(1.0f, 0.756f, 0.027f)
         };
 
+        private SessionComponent _arCoreDevice;
+
         public void Start()
         {
             spawnerScript = gameObject.GetComponent<Spawner>();
             makePickupArray();
+            _arCoreDevice = GameObject.FindGameObjectWithTag("ARCoreDevice").GetComponent<SessionComponent>();
         }       
 
         /// <summary>
@@ -178,6 +181,7 @@ namespace GoogleARCore.HelloAR
                 {
                     plane.SetActive(false);
                 }
+                _arCoreDevice.m_arSessionConfig.m_enablePlaneFinding = false; // Disable plane tracking in AR CORE
                 PlaceElement(touch);
             } else
             {
@@ -191,6 +195,7 @@ namespace GoogleARCore.HelloAR
                 }
                 tiles = new List<GameObject>();
                 spawnerScript.DestroyAll();
+                _arCoreDevice.m_arSessionConfig.m_enablePlaneFinding = true; // Enable plane tracking in AR CORE
             }
         }
 
