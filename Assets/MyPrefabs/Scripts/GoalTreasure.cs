@@ -30,6 +30,11 @@ public class GoalTreasure : MonoBehaviour {
 
             _rotatedDegress += rotation;
 
+            if (!GameManager.GameManager_instance.GameEnded)
+            {
+                GameManager.GameManager_instance.EndGame(); // Tell the game manager that we finished the game
+            }
+
             // We are fully rotated, stop rotation, play animation
             if (_rotatedDegress > 180)
             {

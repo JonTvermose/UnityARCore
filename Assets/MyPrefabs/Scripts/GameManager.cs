@@ -5,8 +5,7 @@ public class GameManager : MonoBehaviour
     public static GameManager GameManager_instance;
 
     private InputController _inputController;
-
-    private GoalTreasure _goalTreasure;
+    
     private PlayerMovement _playerMovement;
     private int _score;
     private int _pickups;
@@ -25,7 +24,6 @@ public class GameManager : MonoBehaviour
 	        Destroy(this);
 	    }
 	    _inputController = gameObject.GetComponent<InputController>();
-	    _goalTreasure = GameObject.FindGameObjectWithTag("Treasure").GetComponent<GoalTreasure>();
 	    _playerMovement = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>();
 	    _pickups = 0;
 	    _score = 0;
@@ -33,21 +31,32 @@ public class GameManager : MonoBehaviour
 	
 	// Update is called once per frame
 	void Update () {
-	    if (_goalTreasure != null)
-	    {
-	        if (_goalTreasure.IsPlaying())
-	        {
-	            // Game has finished
-	            EndGame();
-	        }
-        }
 	}
 
     public void EndGame()
     {
         GameEnded = true;
         _score = (50 - _inputController.TotalMoves()) * _pickups;
-        // TODO - communicate score to Android app
+        SetHighScore(_score.ToString());
+    }
+
+    private void Quit()
+    {
+        Application.Quit();
+    }
+
+    /// <summary>
+    /// Saves the highscore on the phone and shows a toast message to the user by calling the method "setHighScore(string score)" in android
+    /// </summary>
+    private void SetHighScore(string highScore)
+    {
+        AndroidJavaClass unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
+        AndroidJavaObject unityActivity = unityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
+
+        if (unityActivity != null)
+        {
+            unityActivity.Call("setHighScore", highScore);
+        }
     }
 
     public void PickupTrigger()
