@@ -125,6 +125,12 @@ namespace GoogleARCore.HelloAR
         {
             _QuitOnConnectionErrors();
 
+            // Quit Unity if user presses the back-button on Android device
+            if (Input.GetKey(KeyCode.Escape))
+            {
+                Application.Quit();
+            }
+
             // The tracking state must be FrameTrackingState.Tracking in order to access the Frame.
             if (Frame.TrackingState != FrameTrackingState.Tracking)
             {

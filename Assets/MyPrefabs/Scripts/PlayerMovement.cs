@@ -158,7 +158,7 @@ public class PlayerMovement : MonoBehaviour
 	    }
         if (_isMoving)
 	    {
-            if (playerPosX == goalX && playerPosZ == goalZ)
+            //if (playerPosX == goalX && playerPosZ == goalZ)
             {
                 _treasure.GetComponent<GoalTreasure>().TreasureFound();
                 _isMoving = false;
