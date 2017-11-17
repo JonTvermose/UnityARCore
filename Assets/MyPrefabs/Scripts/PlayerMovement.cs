@@ -30,8 +30,8 @@ public class PlayerMovement : MonoBehaviour
     private int playerPosZ = 0;
     private int[,] boardItemsArray;
 
-    private int goalX;
-    private int goalZ;
+    private int goalX = -999;
+    private int goalZ = -999;
 
     private GameObject _treasure;
 
@@ -44,22 +44,6 @@ public class PlayerMovement : MonoBehaviour
         angleTarget90 = Quaternion.Euler(0.0f, transform.rotation.eulerAngles.y -90, transform.rotation.z);
         angleTarget180 = Quaternion.Euler(0.0f, transform.rotation.eulerAngles.y + 180, transform.rotation.z);
         angleTarget270 = Quaternion.Euler(0.0f, transform.rotation.eulerAngles.y + 90, transform.rotation.z);
-        GameObject sceneController = GameObject.Find("SceneController");
-        arCon = sceneController.GetComponent<HelloARController>();
-        boardItemsArray = arCon.boardItemsArray;
-
-        for (int x = 0; x < boardItemsArray.GetLength(0); x++)
-        {
-            for (int z = 0; z < boardItemsArray.GetLength(1); z++)
-            {
-                if (boardItemsArray[x, z] == 3)
-                {
-                    goalX = x;
-                    goalZ = z;
-                }
-            }
-        }
-        _treasure = GameObject.FindGameObjectWithTag("Treasure");
     }
 
     // Update is called once per frame
@@ -158,7 +142,7 @@ public class PlayerMovement : MonoBehaviour
 	    }
         if (_isMoving)
 	    {
-            //if (playerPosX == goalX && playerPosZ == goalZ)
+            if (playerPosX == goalX && playerPosZ == goalZ)
             {
                 _treasure.GetComponent<GoalTreasure>().TreasureFound();
                 _isMoving = false;
@@ -182,6 +166,23 @@ public class PlayerMovement : MonoBehaviour
     // Start moving the player in the given directions. Y should always be 0
     public void MovePlayer(Queue<Vector3> directions)
     {
+        GameObject sceneController = GameObject.Find("SceneController");
+        arCon = sceneController.GetComponent<HelloARController>();
+        boardItemsArray = arCon.boardItemsArray;
+
+        for (int x = 0; x < boardItemsArray.GetLength(0); x++)
+        {
+            for (int z = 0; z < boardItemsArray.GetLength(1); z++)
+            {
+                if (boardItemsArray[x, z] == 3)
+                {
+                    goalX = x;
+                    goalZ = z;
+                }
+            }
+        }
+        _treasure = GameObject.FindGameObjectWithTag("Treasure");
+
         //float turnAngle = 90;
         //transform.rotation = Quaternion.Euler(0.0f, transform.rotation.eulerAngles.y + turnAngle, transform.rotation.z);
         // Copy the stack to _directions. Looks silly, but is neccesary to keep the order
