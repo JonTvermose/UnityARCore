@@ -913,6 +913,7 @@ MonoBehaviour:
   Player: {fileID: 1379736464463658, guid: a0ef4d6c33230cd418cfe69324e57fec, type: 2}
   Goal: {fileID: 1130837182108652, guid: b3a1a51382e748047b8f404af5b15ed8, type: 2}
   Obstacle: {fileID: 1741913415448902, guid: c4b02c29157fe0847b4a09734db58cc7, type: 2}
+  _rend: {fileID: 0}
 --- !u!114 &477643400
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -941,6 +942,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1441afe1940e1e488fdc3e248051996, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _rend: {fileID: 0}
 --- !u!1001 &524054900
 Prefab:
   m_ObjectHideFlags: 0
@@ -2105,7 +2107,7 @@ Prefab:
         type: 2}
       propertyPath: tilePrefab
       value: 
-      objectReference: {fileID: 1976354971454966, guid: d6579713aed6b7e4b85cdee7e74e1300,
+      objectReference: {fileID: 1861292974931738, guid: 7dd7bf5971b032b43b71dd3cdccd8dfa,
         type: 2}
     - target: {fileID: 1493861335851568, guid: 0aafa3c252b92fb4881345d5d8c5075a, type: 2}
       propertyPath: m_Name

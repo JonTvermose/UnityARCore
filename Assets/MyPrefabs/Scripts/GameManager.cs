@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using GoogleARCore.HelloAR;
+using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
@@ -9,6 +10,7 @@ public class GameManager : MonoBehaviour
     private PlayerMovement _playerMovement;
     private int _score;
     private int _pickups;
+    public Renderer _rend;
     public bool GameEnded { get; set; }
 
 	// Use this for initialization
@@ -27,7 +29,9 @@ public class GameManager : MonoBehaviour
 	    _playerMovement = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>();
 	    _pickups = 0;
 	    _score = 0;
-	}
+        
+        
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -63,5 +67,46 @@ public class GameManager : MonoBehaviour
     public void PickupTrigger()
     {
         _pickups++;
+
+        float cl = 1f - (_pickups / 4f);
+        ColorTiles(cl);
+        ColorObstacles(cl);
+        ColorPickups(cl);
+    }
+
+    private void ColorTiles(float colorLevel)
+    {
+        foreach (var tile in GameObject.FindGameObjectsWithTag("Tile"))
+        {
+            _rend = tile.GetComponent<Renderer>();
+            _rend.material.shader = Shader.Find("Unlit/GrayscaleTexture");
+            _rend.material.SetFloat("_ColorLevel", colorLevel);
+        }
+    }
+
+    private void ColorObstacles(float colorLevel)
+    {
+        foreach (GameObject obstacle in GameObject.FindGameObjectsWithTag("Obstacle"))
+        {
+            _rend = obstacle.GetComponent<Renderer>();
+            foreach (Material mat in _rend.materials)
+            {
+                mat.shader = Shader.Find("Unlit/GrayscaleColor");
+                mat.SetFloat("_ColorLevel", colorLevel);
+            }
+        }
+    }
+
+    private void ColorPickups(float colorLevel)
+    {
+        foreach (GameObject pickup in GameObject.FindGameObjectsWithTag("Pickup"))
+        {
+            _rend = pickup.GetComponent<Renderer>();
+            foreach (Material mat in _rend.materials)
+            {
+                mat.shader = Shader.Find("Unlit/GrayscaleColor");
+                mat.SetFloat("_ColorLevel", colorLevel);
+            }
+        }
     }
 }

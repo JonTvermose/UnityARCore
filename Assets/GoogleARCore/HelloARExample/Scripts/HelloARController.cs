@@ -110,12 +110,16 @@ namespace GoogleARCore.HelloAR
         };
 
         private SessionComponent _arCoreDevice;
+        public Renderer _rend;
 
         public void Start()
         {
             spawnerScript = gameObject.GetComponent<Spawner>();
             makePickupArray();
             _arCoreDevice = GameObject.FindGameObjectWithTag("ARCoreDevice").GetComponent<SessionComponent>();
+            _rend = tilePrefab.GetComponent<Renderer>();
+            _rend.material.shader = Shader.Find("Unlit/GrayscaleTexture");
+            _rend.material.SetFloat("_ColorLevel", 1f);
         }       
 
         /// <summary>
@@ -189,6 +193,8 @@ namespace GoogleARCore.HelloAR
                 }
                 _arCoreDevice.m_arSessionConfig.m_enablePlaneFinding = false; // Disable plane tracking in AR CORE
                 PlaceElement(touch);
+
+                
             } else
             {
                 foreach (GameObject plane in planes)
@@ -284,6 +290,10 @@ namespace GoogleARCore.HelloAR
         private bool IsPickup(int i, int j)
         {
             return (
+                (i == 1 && j == 0) ||
+                (i == 2 && j == 0) ||
+                (i == 3 && j == 0) ||
+                (i == 4 && j == 0) ||
                 (i == 0 && j == 12) || 
                 (i == 6 && j == 6) || 
                 (i == 10 && j == 2) || 

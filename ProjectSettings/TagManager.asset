@@ -11,6 +11,9 @@ TagManager:
   - TreasureTop
   - Treasure
   - ARCoreDevice
+  - Tile
+  - Obstacle
+  - Pickup
   layers:
   - Default
   - TransparentFX

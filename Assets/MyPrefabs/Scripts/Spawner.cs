@@ -18,6 +18,8 @@ public class Spawner : MonoBehaviour
 
     private List<GameObject> spawnedObjects = new List<GameObject>();
 
+    public Renderer _rend;
+
     void Awake()
     {
         //Instantiate(Player, gameObject.transform.position, Quaternion.identity);
@@ -25,6 +27,20 @@ public class Spawner : MonoBehaviour
 
     void Start()
     {
+        _rend = Obstacle.GetComponent<Renderer>();
+        foreach (Material mat in _rend.materials)
+        {
+            mat.shader = Shader.Find("Unlit/GrayscaleColor");
+            mat.SetFloat("_ColorLevel", 1f);
+        }
+
+        _rend = Pickup.GetComponent<Renderer>();
+        foreach (Material mat in _rend.materials)
+        {            
+            mat.shader = Shader.Find("Unlit/GrayscaleColor");
+            mat.SetFloat("_ColorLevel", 1f);
+        }
+
     }
 
     public void SpawnAll(int[,] indicator, GameObject[,] tiles, Camera cam)
