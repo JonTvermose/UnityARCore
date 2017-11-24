@@ -357,9 +357,9 @@ namespace GoogleARCore.HelloAR
             {
                 // Create an anchor to allow ARCore to track the hitpoint as understanding of the physical
                 // world evolves.
-                Anchor anchor = Session.CreateAnchor(hit.Point, Quaternion.identity);
+                //Anchor anchor = Session.CreateAnchor(hit.Point, Quaternion.identity);
 
-                GameObject parentTile = Instantiate(parentCubePrefab, hit.Point, Quaternion.identity, anchor.transform);
+                GameObject parentTile = Instantiate(parentCubePrefab, hit.Point, Quaternion.identity);
                 tilesArray = new GameObject[levelSizeX, levelSizeZ];
 
                 // Intanstiate an tile objects as a child of the anchor; it's transform will now benefit
