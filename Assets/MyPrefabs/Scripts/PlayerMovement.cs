@@ -6,8 +6,8 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
 
-    public float MovementSpeed = 1.0f;
-    public int MaxTurnSpeed = 10; // Degrees / second
+    private float MovementSpeed = 2.0f;
+    private int MaxTurnSpeed = 180; // Degrees / second
     public float DistanceScaler = 0.104f;
     
     private Queue<Vector3> _directions;

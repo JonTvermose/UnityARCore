@@ -940,7 +940,7 @@ MonoBehaviour:
   Obstacles:
   - {fileID: 1405038130519688, guid: 259bb3129dbf0d647ad526c834e1928c, type: 2}
   Pickup: {fileID: 1561641120240162, guid: ad5e4ae049e7d7e458a1cf18b92fac4a, type: 2}
-  Player: {fileID: 1379736464463658, guid: a0ef4d6c33230cd418cfe69324e57fec, type: 2}
+  Player: {fileID: 1882283371267916, guid: a0ef4d6c33230cd418cfe69324e57fec, type: 2}
   Goal: {fileID: 1130837182108652, guid: b3a1a51382e748047b8f404af5b15ed8, type: 2}
   Obstacle: {fileID: 1741913415448902, guid: c4b02c29157fe0847b4a09734db58cc7, type: 2}
   _rend: {fileID: 0}
