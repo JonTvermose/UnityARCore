@@ -12,6 +12,7 @@ public class InputController : MonoBehaviour {
     private Queue<Vector3> _directions;
     private int _repeats;
     public GameObject RepeatButton;
+    public Text StartText;
     private Text _repeatText;
 
     private GameObject _player;
@@ -39,7 +40,7 @@ public class InputController : MonoBehaviour {
     public void RepeatMoves()
     {
         _repeats++;
-        _repeatText.text = "Gentag sekvens (" + _repeats + ")";
+        _repeatText.text = _repeats.ToString();
     }
 
     public void AddMove(int direction)
@@ -74,8 +75,8 @@ public class InputController : MonoBehaviour {
     /// </summary>
     public int TotalMoves()
     {
-        int total = _numberTexts.Sum(x => int.Parse(x.text));
-        return total;
+        //int total = _numberTexts.Sum(x => int.Parse(x.text));
+        return int.Parse(StartText.text);
     }
 
     /// <summary>
@@ -87,6 +88,7 @@ public class InputController : MonoBehaviour {
         {
             numberText.text = "0";
         }
+        _repeatText.text = "0";
     }
 
     public void ExecuteMoves()
@@ -95,6 +97,11 @@ public class InputController : MonoBehaviour {
         if (temp != null)
         {
             temp.DoneExecutingHandler += ExecuteHandler;
+
+            // Update the total count of moves
+            int moves = _directions.Count + _repeats;
+            StartText.text = (Int32.Parse(StartText.text) + moves).ToString();
+            ResetMoves();
 
             if (_repeats > 0)
             {
