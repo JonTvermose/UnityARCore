@@ -119,7 +119,7 @@ namespace GoogleARCore.HelloAR
             _arCoreDevice = GameObject.FindGameObjectWithTag("ARCoreDevice").GetComponent<SessionComponent>();
             _rend = tilePrefab.GetComponent<Renderer>();
             _rend.material.shader = Shader.Find("Unlit/GrayscaleTexture");
-            _rend.material.SetFloat("_ColorLevel", 0f);
+            _rend.material.SetFloat("_ColorLevel", 1f);
         }       
 
         /// <summary>
@@ -359,7 +359,6 @@ namespace GoogleARCore.HelloAR
                 // world evolves.
                 //Anchor anchor = Session.CreateAnchor(hit.Point, Quaternion.identity);
 
-                //GameObject parentTile = Instantiate(parentCubePrefab, hit.Point, Quaternion.identity, anchor.transform);
                 GameObject parentTile = Instantiate(parentCubePrefab, hit.Point, Quaternion.identity);
                 tilesArray = new GameObject[levelSizeX, levelSizeZ];
 
