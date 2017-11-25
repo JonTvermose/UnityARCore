@@ -119,7 +119,7 @@ namespace GoogleARCore.HelloAR
             _arCoreDevice = GameObject.FindGameObjectWithTag("ARCoreDevice").GetComponent<SessionComponent>();
             _rend = tilePrefab.GetComponent<Renderer>();
             _rend.material.shader = Shader.Find("Unlit/GrayscaleTexture");
-            _rend.material.SetFloat("_ColorLevel", 1f);
+            _rend.material.SetFloat("_ColorLevel", 0f);
         }       
 
         /// <summary>
