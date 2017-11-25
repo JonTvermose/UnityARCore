@@ -13,6 +13,18 @@ public class GameManager : MonoBehaviour
     public Renderer _rend;
     public bool GameEnded { get; set; }
 
+    private bool _animateShader { get; set; }
+
+    private bool shaderFadeUp = false;
+    private bool shaderFadeDown = false;
+    private bool shaderSetFinal = false;
+    private float shaderFadeUpStart = 0f;
+    private float shaderFadeUpLimit = 5f;
+    private float shaderFadeDownStart = 5f;
+    private float shaderFadeDownLimit = 0f;
+    private float shaderChangeSpeed = 0.25f;
+    private float shaderValue = 0;
+
 	// Use this for initialization
 	void Start ()
 	{
@@ -29,13 +41,54 @@ public class GameManager : MonoBehaviour
 	    _playerMovement = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>();
 	    _pickups = 0;
 	    _score = 0;
-        
-        
+                
     }
-	
-	// Update is called once per frame
-	void Update () {
-	}
+
+
+    // Update is called once per frame
+    void Update () {
+
+        if (shaderFadeUp)
+        {
+            if (shaderFadeUpStart < shaderFadeUpLimit)
+            {
+                shaderFadeUpStart += shaderChangeSpeed;
+                ColorTiles(shaderFadeUpStart);
+                ColorObstacles(shaderFadeUpStart);
+                ColorPickups(shaderFadeUpStart);
+            } else
+            {
+                shaderFadeUp = false;
+                shaderFadeDown = true;
+            }
+        }
+
+        if (shaderFadeDown)
+        {
+            if (shaderFadeDownStart > shaderFadeDownLimit)
+            {
+                shaderFadeDownStart -= shaderChangeSpeed;
+                ColorTiles(shaderFadeDownStart);
+                ColorObstacles(shaderFadeDownStart);
+                ColorPickups(shaderFadeDownStart);
+            }
+            else
+            {
+                shaderFadeDown = false;
+                shaderSetFinal = true;
+                shaderFadeDownStart = shaderFadeUpLimit;
+            }
+        }
+
+        if (shaderSetFinal)
+        {            
+            shaderFadeUpStart = shaderValue;
+            ColorTiles(shaderValue);
+            ColorObstacles(shaderValue);
+            ColorPickups(shaderValue);
+            shaderSetFinal = false;
+        }
+    }
 
     public void EndGame()
     {
@@ -67,11 +120,9 @@ public class GameManager : MonoBehaviour
     public void PickupTrigger()
     {
         _pickups++;
-
-        float cl = 1f - (_pickups / 4f);
-        ColorTiles(cl);
-        ColorObstacles(cl);
-        ColorPickups(cl);
+        shaderFadeUp = true;
+        shaderValue = _pickups / 4f;
+        shaderFadeDownLimit = (shaderValue);
     }
 
     private void ColorTiles(float colorLevel)

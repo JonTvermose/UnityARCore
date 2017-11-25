@@ -31,14 +31,14 @@ public class Spawner : MonoBehaviour
         foreach (Material mat in _rend.materials)
         {
             mat.shader = Shader.Find("Unlit/GrayscaleColor");
-            mat.SetFloat("_ColorLevel", 1f);
+            mat.SetFloat("_ColorLevel", 0f);
         }
 
         _rend = Pickup.GetComponent<Renderer>();
         foreach (Material mat in _rend.materials)
         {            
             mat.shader = Shader.Find("Unlit/GrayscaleColor");
-            mat.SetFloat("_ColorLevel", 1f);
+            mat.SetFloat("_ColorLevel", 0f);
         }
 
     }

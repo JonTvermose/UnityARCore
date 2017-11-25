@@ -43,7 +43,8 @@ Shader "Unlit/GrayscaleTexture"
 				fixed4 frag(v2f i) : SV_Target
 				{
 					fixed4 c = tex2D(_Texture, i.texcoord);
-					c.rgb = lerp(c.rgb, dot(c.rgb, float3(0.3, 0.59, 0.11)), _ColorLevel);
+					//c.rgb = lerp(c.rgb, dot(c.rgb, float3(0.3, 0.59, 0.11)), _ColorLevel);
+					c.rgb = lerp(dot(c.rgb, float3(0.3, 0.59, 0.11)), c.rgb, _ColorLevel);
 					return c;
 				}
 			ENDCG

@@ -19,7 +19,8 @@
 			};
 
 			void surf(Input IN, inout SurfaceOutput o) {
-			o.Albedo = lerp(_Color.rgb, dot(_Color.rgb, float3(0.3, 0.59, 0.11)), _ColorLevel);
+			//o.Albedo = lerp(_Color.rgb, dot(_Color.rgb, float3(0.3, 0.59, 0.11)), _ColorLevel);
+				o.Albedo = lerp(dot(_Color.rgb, float3(0.3, 0.59, 0.11)), _Color.rgb, _ColorLevel);
 			}
 
 		ENDCG
