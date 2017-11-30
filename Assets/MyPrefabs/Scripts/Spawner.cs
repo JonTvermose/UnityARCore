@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using GoogleARCore;
+using System.Collections;
 using System.Collections.Generic;
 using System.Security.Principal;
 using UnityEngine;
@@ -43,7 +44,7 @@ public class Spawner : MonoBehaviour
 
     }
 
-    public void SpawnAll(int[,] indicator, GameObject[,] tiles, Camera cam)
+    public void SpawnAll(int[,] indicator, GameObject[,] tiles, Camera cam, Anchor anchor)
     {
         if (Obstacles == null || Pickup == null || Player == null)
             return;
@@ -67,7 +68,7 @@ public class Spawner : MonoBehaviour
                 if (spawnObject != null)
                 {
                     GameObject tile = tiles[i,j];
-                    GameObject spawnedObject = Instantiate(spawnObject, tile.transform.position, Quaternion.identity);
+                    GameObject spawnedObject = Instantiate(spawnObject, tile.transform.position, Quaternion.identity,anchor.transform);
                     spawnedObject.transform.position += new Vector3(0f,0.045f,0f);
                     spawnedObjects.Add(spawnedObject);
                     if (indicate == 1)
