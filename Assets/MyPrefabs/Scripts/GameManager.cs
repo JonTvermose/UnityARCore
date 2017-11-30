@@ -95,7 +95,7 @@ public class GameManager : MonoBehaviour
         GameEnded = true;
         _score = (50 - _inputController.TotalMoves()) * _pickups;
         SetHighScore(_score.ToString());
-        Invoke("Quit", 5);
+        Invoke("Quit", 8);
     }
 
     private void Quit()
