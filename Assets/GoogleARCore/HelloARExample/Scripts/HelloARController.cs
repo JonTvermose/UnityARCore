@@ -82,6 +82,7 @@ namespace GoogleARCore.HelloAR
         private int elementNumber = 0;
 
         private Renderer _rend;
+        private Anchor _anchor;
 
 #endregion
 
@@ -334,9 +335,9 @@ namespace GoogleARCore.HelloAR
             {
                 // Create an anchor to allow ARCore to track the hitpoint as understanding of the physical
                 // world evolves.
-                //Anchor anchor = Session.CreateAnchor(hit.Point, Quaternion.identity);
+                _anchor = Session.CreateAnchor(hit.Point, Quaternion.identity);
 
-                GameObject parentTile = Instantiate(parentCubePrefab, hit.Point, Quaternion.identity);
+                GameObject parentTile = Instantiate(parentCubePrefab, hit.Point, Quaternion.identity, _anchor.transform);
                 tilesArray = new GameObject[levelSizeX, levelSizeZ];
 
                 // Intanstiate an tile objects as a child of the anchor; it's transform will now benefit
@@ -357,7 +358,7 @@ namespace GoogleARCore.HelloAR
                 }
                 parentTile.transform.LookAt(m_firstPersonCamera.transform);
                 parentTile.transform.rotation = Quaternion.Euler(0.0f, parentTile.transform.rotation.eulerAngles.y + 180, parentTile.transform.rotation.z);
-                spawnerScript.SpawnAll(boardItemsArray, tilesArray,m_firstPersonCamera);
+                spawnerScript.SpawnAll(boardItemsArray, tilesArray,m_firstPersonCamera,_anchor);
             }
         }
 
