@@ -97,9 +97,10 @@ public class GameManager : MonoBehaviour
         {
             timer += Time.deltaTime;
             var snowLevel = timer / maxTime;
+            if (snowLevel > 0.9f)
+                snowLevel = 0.9f; // Limit the maximum value
             SnowTiles(snowLevel);
             SnowObstacles(snowLevel);
-            SnowPickups(snowLevel);
             if (timer > maxTime)
             {
                 // end timer
@@ -111,7 +112,6 @@ public class GameManager : MonoBehaviour
             var snowLevel = timer / maxTime;
             SnowTiles(snowLevel);
             SnowObstacles(snowLevel);
-            SnowPickups(snowLevel);
         }
     }
 
