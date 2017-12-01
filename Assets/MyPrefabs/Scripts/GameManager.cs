@@ -96,23 +96,25 @@ public class GameManager : MonoBehaviour
         if (snowIt)
         {
             timer += Time.deltaTime;
-            var snowLevel = timer / maxTime;
-            if (snowLevel > 0.9f)
-                snowLevel = 0.9f; // Limit the maximum value
-            SnowTiles(snowLevel);
-            SnowObstacles(snowLevel);
+            SnowManager();
             if (timer > maxTime)
             {
-                // end timer
                 snowIt = false;
             }
         } else if (timer > 0)
         {
             timer -= Time.deltaTime * 4; // fadeout a lot faster
-            var snowLevel = timer / maxTime;
-            SnowTiles(snowLevel);
-            SnowObstacles(snowLevel);
+            SnowManager();
         }
+    }
+
+    private void SnowManager()
+    {
+        var snowLevel = timer / maxTime;
+        if (snowLevel > 0.9f)
+            snowLevel = 0.9f; // Limit the maximum value
+        SnowTiles(snowLevel);
+        SnowObstacles(snowLevel);
     }
 
     public void EndGame()
