@@ -2230,6 +2230,12 @@ Prefab:
       propertyPath: ButtonBar2
       value: 
       objectReference: {fileID: 1850904640}
+    - target: {fileID: 114586345146346624, guid: 0aafa3c252b92fb4881345d5d8c5075a,
+        type: 2}
+      propertyPath: Snow
+      value: 
+      objectReference: {fileID: 198396508375125670, guid: 4f3bd58c53c8af241a848ea01a435453,
+        type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 0aafa3c252b92fb4881345d5d8c5075a, type: 2}
   m_IsPrefabParent: 0

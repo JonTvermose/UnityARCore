@@ -56,6 +56,7 @@ namespace GoogleARCore.HelloAR
         public GameObject tilePrefab;
         public ParticleSystem embersEffect;
         public ParticleSystem fireTouch;
+        public ParticleSystem Snow;
 
         public GameObject[] DirectionButtons;
 
@@ -373,7 +374,6 @@ namespace GoogleARCore.HelloAR
                 var top = tilesArray[tilesArray.GetLength(0) / 2, tilesArray.GetLength(1) - 1].transform.position;
                 var right = tilesArray[tilesArray.GetLength(0) - 1, tilesArray.GetLength(1) / 2].transform.position;
                 var bottom = tilesArray[tilesArray.GetLength(0) / 2, 0].transform.position;
-
                 DirectionButtons[0].transform.position = top + new Vector3(0, 0.001f, 0.3f);
                 DirectionButtons[1].transform.position = right + new Vector3(0.3f, 0.001f, 0);
                 DirectionButtons[2].transform.position = bottom + new Vector3(0, 0.001f, -0.3f);
@@ -383,6 +383,9 @@ namespace GoogleARCore.HelloAR
                     DirectionButtons[i].transform.rotation = Quaternion.Euler(90.0f, parentTile.transform.rotation.eulerAngles.y, parentTile.transform.rotation.z);
                 }
 
+                // Let it snow!
+                var center = new Vector3((top.x - bottom.x) / 2.0f, top.y, (top.z - bottom.z) / 2.0f);
+                var snow = Instantiate(Snow, center + new Vector3(0, 1, 0), Quaternion.identity, parentTile.transform);
             }
         }
 

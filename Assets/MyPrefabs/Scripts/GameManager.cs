@@ -25,6 +25,10 @@ public class GameManager : MonoBehaviour
     private float shaderChangeSpeed = 0.25f;
     private float shaderValue = 0;
 
+    private float timer = 0.0f;
+    private float maxTime = 20.0f;
+    private bool snowIt = false;
+
 	// Use this for initialization
 	void Start ()
 	{
@@ -88,6 +92,27 @@ public class GameManager : MonoBehaviour
             ColorPickups(shaderValue);
             shaderSetFinal = false;
         }
+
+        if (snowIt)
+        {
+            timer += Time.deltaTime;
+            var snowLevel = timer / maxTime;
+            SnowTiles(snowLevel);
+            SnowObstacles(snowLevel);
+            SnowPickups(snowLevel);
+            if (timer > maxTime)
+            {
+                // end timer
+                snowIt = false;
+            }
+        } else if (timer > 0)
+        {
+            timer -= Time.deltaTime * 4; // fadeout a lot faster
+            var snowLevel = timer / maxTime;
+            SnowTiles(snowLevel);
+            SnowObstacles(snowLevel);
+            SnowPickups(snowLevel);
+        }
     }
 
     public void EndGame()
@@ -123,6 +148,8 @@ public class GameManager : MonoBehaviour
         shaderFadeUp = true;
         shaderValue = _pickups / 4f;
         shaderFadeDownLimit = (shaderValue);
+
+        snowIt = true;
     }
 
     private void ColorTiles(float colorLevel)
@@ -132,6 +159,17 @@ public class GameManager : MonoBehaviour
             _rend = tile.GetComponent<Renderer>();
             _rend.material.shader = Shader.Find("Unlit/GrayscaleTexture");
             _rend.material.SetFloat("_ColorLevel", colorLevel);
+        }
+    }
+
+    private void SnowTiles(float snowLevel)
+    {
+        foreach (var tile in GameObject.FindGameObjectsWithTag("Tile"))
+        {
+            _rend = tile.GetComponent<Renderer>();
+            _rend.material.shader = Shader.Find("Unlit/GrayscaleTexture");
+            _rend.material.SetFloat("_IsSnow", 1.0f);
+            _rend.material.SetFloat("_SnowLevel", snowLevel);
         }
     }
 
@@ -148,6 +186,20 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    private void SnowObstacles(float snowLevel)
+    {
+        foreach (GameObject obstacle in GameObject.FindGameObjectsWithTag("Obstacle"))
+        {
+            _rend = obstacle.GetComponent<Renderer>();
+            foreach (Material mat in _rend.materials)
+            {
+                mat.shader = Shader.Find("Unlit/GrayscaleColor");
+                mat.SetFloat("_IsSnow", 1.0f);
+                mat.SetFloat("_SnowLevel", snowLevel);
+            }
+        }
+    }
+
     private void ColorPickups(float colorLevel)
     {
         foreach (GameObject pickup in GameObject.FindGameObjectsWithTag("Pickup"))
@@ -157,6 +209,20 @@ public class GameManager : MonoBehaviour
             {
                 mat.shader = Shader.Find("Unlit/GrayscaleColor");
                 mat.SetFloat("_ColorLevel", colorLevel);
+            }
+        }
+    }
+
+    private void SnowPickups(float snowLevel)
+    {
+        foreach (GameObject pickup in GameObject.FindGameObjectsWithTag("Pickup"))
+        {
+            _rend = pickup.GetComponent<Renderer>();
+            foreach (Material mat in _rend.materials)
+            {
+                mat.shader = Shader.Find("Unlit/GrayscaleColor");
+                mat.SetFloat("_IsSnow", 1.0f);
+                mat.SetFloat("_SnowLevel", snowLevel);
             }
         }
     }
