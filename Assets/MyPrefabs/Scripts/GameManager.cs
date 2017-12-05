@@ -5,12 +5,12 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager GameManager_instance;
 
-    private InputController _inputController;
-    
+    private InputController _inputController;    
+
     private PlayerMovement _playerMovement;
     private int _score;
     private int _pickups;
-    public Renderer _rend;
+    private Renderer _rend;
     public bool GameEnded { get; set; }
 
     private bool _animateShader { get; set; }
@@ -54,7 +54,7 @@ public class GameManager : MonoBehaviour
             {
                 shaderFadeUpStart += shaderChangeSpeed;
                 ColorTiles(shaderFadeUpStart);
-                ColorObstacles(shaderFadeUpStart);
+                ColorObstacles(shaderFadeUpStart,1);
                 ColorPickups(shaderFadeUpStart);
             } else
             {
@@ -69,7 +69,7 @@ public class GameManager : MonoBehaviour
             {
                 shaderFadeDownStart -= shaderChangeSpeed;
                 ColorTiles(shaderFadeDownStart);
-                ColorObstacles(shaderFadeDownStart);
+                ColorObstacles(shaderFadeDownStart,1);
                 ColorPickups(shaderFadeDownStart);
             }
             else
@@ -84,7 +84,7 @@ public class GameManager : MonoBehaviour
         {            
             shaderFadeUpStart = shaderValue;
             ColorTiles(shaderValue);
-            ColorObstacles(shaderValue);
+            ColorObstacles(shaderValue,0);
             ColorPickups(shaderValue);
             shaderSetFinal = false;
         }
@@ -135,19 +135,20 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void ColorObstacles(float colorLevel)
+    private void ColorObstacles(float colorLevel, float scale)
     {
         foreach (GameObject obstacle in GameObject.FindGameObjectsWithTag("Obstacle"))
         {
             _rend = obstacle.GetComponent<Renderer>();
             foreach (Material mat in _rend.materials)
             {
-                mat.shader = Shader.Find("Unlit/GrayscaleColor");
+                mat.shader = Shader.Find("Unlit/GrayColorMove");    // <-- new shit
                 mat.SetFloat("_ColorLevel", colorLevel);
+                mat.SetFloat("_Scale", scale);                      // <-- new shit
             }
         }
     }
-
+    
     private void ColorPickups(float colorLevel)
     {
         foreach (GameObject pickup in GameObject.FindGameObjectsWithTag("Pickup"))

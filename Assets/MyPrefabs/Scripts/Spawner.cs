@@ -9,6 +9,8 @@ public class Spawner : MonoBehaviour
 
     public GameObject[] Obstacles;
 
+    public GameObject[,] ObstacleArray;
+
     public GameObject Pickup;
 
     public GameObject Player;
@@ -27,7 +29,7 @@ public class Spawner : MonoBehaviour
     }
 
     void Start()
-    {
+    {        
         _rend = Obstacle.GetComponent<Renderer>();
         foreach (Material mat in _rend.materials)
         {
@@ -48,6 +50,8 @@ public class Spawner : MonoBehaviour
     {
         if (Obstacles == null || Pickup == null || Player == null)
             return;
+
+        ObstacleArray = new GameObject[indicator.GetLength(0), indicator.GetLength(1)];
 
         System.Random r = new System.Random();
         for (int i = 0; i < indicator.GetLength(0); i++)
@@ -84,6 +88,7 @@ public class Spawner : MonoBehaviour
                         spawnedObject.transform.rotation = Quaternion.Euler(0.0f, spawnedObject.transform.rotation.eulerAngles.y, spawnedObject.transform.rotation.z);
                     } else if (indicate == 4)
                     {
+                        ObstacleArray[i, j] = spawnedObject;
                         //spawnedObject.transform.position -= new Vector3(0f, 0.035f, 0f);
                         //spawnedObject.transform.LookAt(cam.transform);
                         spawnedObject.transform.position -= new Vector3(0f, 0.035f, 0f);

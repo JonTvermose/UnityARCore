@@ -1,5 +1,6 @@
 ﻿using GoogleARCore.HelloAR;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -11,7 +12,7 @@ public class PlayerMovement : MonoBehaviour
     public float DistanceScaler = 0.104f;
     
     private Queue<Vector3> _directions;
-    private bool _isMoving, _isTurning;
+    private bool _isMoving, _isTurning, _wait;
     private Vector3 _currentTarget;
     private int _maxAngleDelta = 2; // Maximum error acceptable between 
     public bool IsExecuting;
@@ -24,20 +25,27 @@ public class PlayerMovement : MonoBehaviour
     private Quaternion angleTarget180;
     private Quaternion angleTarget270;
     private float turnAngle;
+    private float _rockLean;
+
 
     private HelloARController arCon;
     private int playerPosX = 0;
     private int playerPosZ = 0;
     private int[,] boardItemsArray;
+    private Spawner _spawner;
+    private Renderer _rend;
 
     private int goalX = -999;
     private int goalZ = -999;
 
     private GameObject _treasure;
+    private GameObject _obstacle;
 
     // Use this for initialization
     void Start ()
     {
+        GameObject sceneController = GameObject.Find("SceneController");
+        _spawner = sceneController.GetComponent<Spawner>();
         _currentTarget = transform.position;
         _directions = new Queue<Vector3>();
         angleTarget0 = Quaternion.Euler(0.0f, transform.rotation.eulerAngles.y, transform.rotation.z);
@@ -52,7 +60,7 @@ public class PlayerMovement : MonoBehaviour
             return;
 
         // Dont pop if we have nothing to pop, or are in the process of changing position or rotation
-        if (IsExecuting && !_isMoving && !_isTurning)
+        if (IsExecuting && !_isMoving && !_isTurning && !_wait)
 	    {
 	        // pop - get next target positions
 	        var temp = _directions.Dequeue();
@@ -60,21 +68,34 @@ public class PlayerMovement : MonoBehaviour
             Vector3 playPos = transform.position;
             Vector3 newPos;
             int obstacle;
+            int i;
+            int j;
 
             if (temp.x == 1)
             {
-                obstacle = boardItemsArray[playerPosX + 1, playerPosZ];
-                if (playerPosX < boardItemsArray.GetLength(0)-1 && obstacle != 2 && obstacle != 4)
+                i = playerPosX + 1;                                                         // <-- new shit
+                j = playerPosZ;                                                             // <-- new shit
+                obstacle = boardItemsArray[i, j];
+                if (playerPosX < boardItemsArray.GetLength(0) - 1 && obstacle != 2 && obstacle != 4)
                 {
                     playerPosX++;
                     angleTarget = angleTarget0;
                     newPos = arCon.tilesArray[playerPosX, playerPosZ].transform.position;
                     _currentTarget = new Vector3(newPos.x, transform.position.y,newPos.z);
                 }
+                else if (playerPosX < boardItemsArray.GetLength(0) - 1 && obstacle == 4)    // <-- new shit
+                {                                                                           // <-- new shit
+                    angleTarget = angleTarget0;                                             // <-- new shit
+                    _rockLean = 1;                                                          // <-- new shit
+                    _obstacle = _spawner.ObstacleArray[i, j];                               // <-- new shit
+                    _wait = true;                                                           // <-- new shit
+                }                                                                           // <-- new shit
             }
             else if (temp.x == -1)
             {
-                obstacle = boardItemsArray[playerPosX - 1, playerPosZ];
+                i = playerPosX - 1;                                                         // <-- new shit
+                j = playerPosZ;
+                obstacle = boardItemsArray[i, j];
                 if (playerPosX > 0 && obstacle != 2 && obstacle != 4)
                 {
                     playerPosX--;
@@ -82,10 +103,19 @@ public class PlayerMovement : MonoBehaviour
                     newPos = arCon.tilesArray[playerPosX, playerPosZ].transform.position;
                     _currentTarget = new Vector3(newPos.x, transform.position.y, newPos.z);
                 }
+                else if (playerPosX > 0 && obstacle == 4)                                   // <-- new shit
+                {                                                                           // <-- new shit
+                    angleTarget = angleTarget180;                                           // <-- new shit
+                    _rockLean = -1;                                                         // <-- new shit
+                    _obstacle = _spawner.ObstacleArray[i, j];                               // <-- new shit
+                    _wait = true;                                                           // <-- new shit
+                }                                                                           // <-- new shit
             }
             else if (temp.z == 1)
             {
-                obstacle = boardItemsArray[playerPosX, playerPosZ + 1];
+                i = playerPosX;                                                         // <-- new shit
+                j = playerPosZ + 1;
+                obstacle = boardItemsArray[i, j];
                 if (playerPosZ < boardItemsArray.GetLength(1) - 1 && obstacle != 2 && obstacle != 4)
                 {
                     playerPosZ++;
@@ -93,10 +123,19 @@ public class PlayerMovement : MonoBehaviour
                     newPos = arCon.tilesArray[playerPosX, playerPosZ].transform.position;
                     _currentTarget = new Vector3(newPos.x, transform.position.y, newPos.z);
                 }
+                else if (playerPosZ < boardItemsArray.GetLength(1) - 1 && obstacle == 4)    // <-- new shit
+                {                                                                           // <-- new shit
+                    angleTarget = angleTarget90;                                            // <-- new shit
+                    _rockLean = 2;                                                          // <-- new shit
+                    _obstacle = _spawner.ObstacleArray[i, j];                               // <-- new shit
+                    _wait = true;                                                           // <-- new shit
+                }                                                                           // <-- new shit
             }
             else if (temp.z == -1)
             {
-                obstacle = boardItemsArray[playerPosX, playerPosZ - 1];
+                i = playerPosX;                                                         // <-- new shit
+                j = playerPosZ - 1;
+                obstacle = boardItemsArray[i, j];
                 if (playerPosZ > 0 && obstacle != 2 && obstacle != 4)
                 {
                     playerPosZ--;
@@ -104,6 +143,13 @@ public class PlayerMovement : MonoBehaviour
                     newPos = arCon.tilesArray[playerPosX, playerPosZ].transform.position;
                     _currentTarget = new Vector3(newPos.x, transform.position.y, newPos.z);
                 }
+                else if (playerPosZ > 0 && obstacle == 4)                                   // <-- new shit
+                {                                                                           // <-- new shit
+                    angleTarget = angleTarget270;                                           // <-- new shit
+                    _rockLean = -2;                                                         // <-- new shit
+                    _obstacle = _spawner.ObstacleArray[i, j];                               // <-- new shit
+                    _wait = true;                                                           // <-- new shit
+                }                                                                           // <-- new shit
             }
 
             
@@ -148,6 +194,11 @@ public class PlayerMovement : MonoBehaviour
                 _isMoving = false;
                 return;
             }
+            if (_wait)
+            {
+                StartCoroutine(WaitFor(2f));
+            }
+
             // Animate moving towards _currentTarget
 	        gameObject.transform.position = Vector3.Lerp(gameObject.transform.position, _currentTarget, MovementSpeed * Time.deltaTime);
 
@@ -162,6 +213,29 @@ public class PlayerMovement : MonoBehaviour
 	        }
 	    }
 	}
+
+    private IEnumerator WaitFor(float seconds)
+    {
+        _rend = _obstacle.GetComponent<Renderer>();
+        foreach (Material mat in _rend.materials)
+        {
+            mat.shader = Shader.Find("Unlit/GrayColorMove");    // <-- new shit
+            mat.SetFloat("_Scale", 0.75f);                          // <-- new shit
+            mat.SetFloat("_Lean", _rockLean);                   // <-- new shit
+        }
+
+        yield return new WaitForSeconds(seconds);
+
+        foreach (Material mat in _rend.materials)
+        {
+            mat.shader = Shader.Find("Unlit/GrayColorMove");    // <-- new shit
+            mat.SetFloat("_Scale", 0);                          // <-- new shit
+            mat.SetFloat("_Lean", 0);                           // <-- new shit
+        }
+        _wait = false;
+        _isMoving = false;
+        _isTurning = false;
+    }
 
     // Start moving the player in the given directions. Y should always be 0
     public void MovePlayer(Queue<Vector3> directions)
