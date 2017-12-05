@@ -52,9 +52,13 @@ namespace GoogleARCore.HelloAR
         public GameObject m_searchingForPlaneUI;
 
         public GameObject ButtonBar;
+        public GameObject ButtonBar2;
         public GameObject tilePrefab;
         public ParticleSystem embersEffect;
         public ParticleSystem fireTouch;
+        public ParticleSystem Snow;
+
+        public GameObject[] DirectionButtons;
 
         public GameObject[,] tilesArray;
         public int[,] boardItemsArray;
@@ -89,6 +93,8 @@ namespace GoogleARCore.HelloAR
         public void Start()
         {
             ButtonBar.SetActive(false);
+            ButtonBar2.SetActive(false);
+
             spawnerScript = gameObject.GetComponent<Spawner>();
             makePickupArray();
             _arCoreDevice = GameObject.FindGameObjectWithTag("ARCoreDevice").GetComponent<SessionComponent>();
@@ -172,6 +178,8 @@ namespace GoogleARCore.HelloAR
                 PlaceElement(touch);
                 PlaceFireTouch(touch);
                 ButtonBar.SetActive(true);
+                ButtonBar2.SetActive(true);
+
             }
             else
             {
@@ -359,6 +367,25 @@ namespace GoogleARCore.HelloAR
                 parentTile.transform.LookAt(m_firstPersonCamera.transform);
                 parentTile.transform.rotation = Quaternion.Euler(0.0f, parentTile.transform.rotation.eulerAngles.y + 180, parentTile.transform.rotation.z);
                 spawnerScript.SpawnAll(boardItemsArray, tilesArray,m_firstPersonCamera,_anchor);
+
+                // Place the UI buttons in worldspace
+                ButtonBar.transform.parent = parentTile.transform; // Anchor the world space UI buttons
+                var left = tilesArray[0, tilesArray.GetLength(1) / 2].transform.position;
+                var top = tilesArray[tilesArray.GetLength(0) / 2, tilesArray.GetLength(1) - 1].transform.position;
+                var right = tilesArray[tilesArray.GetLength(0) - 1, tilesArray.GetLength(1) / 2].transform.position;
+                var bottom = tilesArray[tilesArray.GetLength(0) / 2, 0].transform.position;
+                DirectionButtons[0].transform.position = top + new Vector3(0, 0.001f, 0.3f);
+                DirectionButtons[1].transform.position = right + new Vector3(0.3f, 0.001f, 0);
+                DirectionButtons[2].transform.position = bottom + new Vector3(0, 0.001f, -0.3f);
+                DirectionButtons[3].transform.position = left + new Vector3(-0.3f, 0.001f, 0);
+                for (int i = 0; i < DirectionButtons.Length; i++)
+                {
+                    DirectionButtons[i].transform.rotation = Quaternion.Euler(90.0f, parentTile.transform.rotation.eulerAngles.y, parentTile.transform.rotation.z);
+                }
+
+                // Let it snow!
+                var center = new Vector3((top.x - bottom.x) / 2.0f, top.y, (top.z - bottom.z) / 2.0f);
+                var snow = Instantiate(Snow, center + new Vector3(0, 1, 0), Quaternion.identity, parentTile.transform);
             }
         }
 
