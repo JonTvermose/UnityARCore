@@ -150,7 +150,11 @@ public class GameManager : MonoBehaviour
         shaderFadeUp = true;
         shaderValue = _pickups / 4f;
         shaderFadeDownLimit = (shaderValue);
+    }
 
+    public void PickupSnowmanTrigger()
+    {
+        _pickups++;
         snowIt = true;
     }
 

@@ -13,6 +13,8 @@ public class Spawner : MonoBehaviour
 
     public GameObject Pickup;
 
+    public GameObject Snowman;
+
     public GameObject Player;
 
     public GameObject Goal;
@@ -68,6 +70,10 @@ public class Spawner : MonoBehaviour
                     case 4: spawnObject = Obstacle; break;
                     //case 3: spawnObject = Obstacles[r.Next(Obstacles.Length)]; break;
                     default: break;
+                }
+                if (i == 3 && j == 3)
+                {
+                    spawnObject = Snowman;
                 }
                 if (spawnObject != null)
                 {

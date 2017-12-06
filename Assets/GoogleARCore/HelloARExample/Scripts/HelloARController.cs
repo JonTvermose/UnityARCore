@@ -56,7 +56,6 @@ namespace GoogleARCore.HelloAR
         public GameObject tilePrefab;
         public ParticleSystem embersEffect;
         public ParticleSystem fireTouch;
-        public ParticleSystem Snow;
 
         public GameObject[] DirectionButtons;
 
@@ -276,10 +275,11 @@ namespace GoogleARCore.HelloAR
         private bool IsPickup(int i, int j)
         {
             return (
-                (i == 1 && j == 0) ||
-                (i == 2 && j == 0) ||
-                (i == 3 && j == 0) ||
-                (i == 4 && j == 0) ||
+                //(i == 1 && j == 0) ||
+                //(i == 2 && j == 0) ||
+                //(i == 3 && j == 0) ||
+                //(i == 4 && j == 0) ||
+                (i == 0 && j == 2) ||
                 (i == 0 && j == 12) || 
                 (i == 6 && j == 6) || 
                 (i == 10 && j == 2) || 
@@ -382,10 +382,6 @@ namespace GoogleARCore.HelloAR
                 {
                     DirectionButtons[i].transform.rotation = Quaternion.Euler(90.0f, parentTile.transform.rotation.eulerAngles.y, parentTile.transform.rotation.z);
                 }
-
-                // Let it snow!
-                var center = new Vector3((top.x - bottom.x) / 2.0f, top.y, (top.z - bottom.z) / 2.0f);
-                var snow = Instantiate(Snow, center + new Vector3(0, 1, 0), Quaternion.identity, parentTile.transform);
             }
         }
 
