@@ -71,7 +71,8 @@ public class Spawner : MonoBehaviour
                     //case 3: spawnObject = Obstacles[r.Next(Obstacles.Length)]; break;
                     default: break;
                 }
-                if (i == 3 && j == 3)
+                // Spawn the snowmans!
+                if (i == 3 && j == 3 || i == 10 && j == 10)
                 {
                     spawnObject = Snowman;
                 }
@@ -98,6 +99,13 @@ public class Spawner : MonoBehaviour
                         //spawnedObject.transform.position -= new Vector3(0f, 0.035f, 0f);
                         //spawnedObject.transform.LookAt(cam.transform);
                         spawnedObject.transform.position -= new Vector3(0f, 0.035f, 0f);
+                        spawnedObject.transform.rotation = Quaternion.Euler(0.0f,
+                            spawnedObject.transform.rotation.eulerAngles.y, spawnedObject.transform.rotation.z);
+                    }
+                    else // Snemand
+                    {
+                        spawnedObject.transform.position -= new Vector3(0f, 0.045f, 0f);
+                        spawnedObject.transform.LookAt(cam.transform);
                         spawnedObject.transform.rotation = Quaternion.Euler(0.0f, spawnedObject.transform.rotation.eulerAngles.y, spawnedObject.transform.rotation.z);
                     }
                 }
